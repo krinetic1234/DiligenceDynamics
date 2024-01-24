@@ -1,0 +1,12 @@
+.uploaderContainer {
+    margin-top: 20px;
+    border: 1px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+}
+
+.fileInput {
+    width: 100%;
+    height: 50px;
+    border: none;
+}
