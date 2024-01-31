@@ -3,6 +3,10 @@ Suite of AI products for investors (QA RA model, automated excel operations, pre
 
 [Insert details on how to use thet app, link to test data, cool things to try]
 
+# For Development
+To work on this, clone repository and navigate to root directory.
+Run `npm install` and `npm run dev` to install all required packages and startup dev server
+
 # Sprint 1 Goals (Individual Contributions)
 
 <ul>
