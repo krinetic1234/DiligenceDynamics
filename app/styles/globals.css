@@ -16,3 +16,7 @@ body {
     min-width: 330px;
     max-width: 330px;
 }
+
+.w50 {
+    width: 50px;
+}
