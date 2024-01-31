@@ -10,16 +10,16 @@ const SideBar = () => {
   return (
     <Row>
         <Col>
-            <Nav defaultActiveKey="/home" className={styles.sidebar}>
+            <Nav defaultActiveKey="/dashboard" className={styles.sidebar}>
                 <h3 className={styles.header}>DiligenceDynamics</h3>
                 <Nav.Item>
-                    <Nav.Link href="/home">Home</Nav.Link>
+                    <Nav.Link href="/dashboard">Home</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/settings">settings</Nav.Link>
+                    <Nav.Link href="/dashboard/settings">settings</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/something else">something</Nav.Link>
+                    <Nav.Link href="/dashboard/something">something</Nav.Link>
                 </Nav.Item>
             </Nav>
         </Col>
