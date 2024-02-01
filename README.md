@@ -14,5 +14,5 @@ Run `npm install` and `npm run dev` to install all required packages and startup
   <li>Justin Lim</li>
   <li>Winston Shum</li>
   <li>Collin Jung</li>
-  <li>Jakob Nordhagen</li>
+  <li>Jakob Nordhagen: work on frontend UI, research on RAG, preliminary work on API integration</li>
 </ul>
