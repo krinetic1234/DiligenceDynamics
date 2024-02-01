@@ -10,7 +10,7 @@ Run `npm install` and `npm run dev` to install all required packages and startup
 # Sprint 1 Goals (Individual Contributions)
 
 <ul>
-  <li>Krish Maniar</li>
+  <li>Krish Maniar: basic UI frontend, testing financial data retrieval on GPT-4 and other open-source models</li>
   <li>Justin Lim</li>
   <li>Winston Shum</li>
   <li>Collin Jung</li>
