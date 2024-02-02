@@ -1,18 +1,20 @@
 # DiligenceDynamics
-Suite of AI products for investors (QA RA model, automated excel operations, predictive analytics, market sentiment)
+A suite of LLM-powered products for financial investors (QA RAG model, automated excel operations, predictive analytics, market sentiment)
 
-[Insert details on how to use thet app, link to test data, cool things to try]
+[Insert details on how to use the app, link to test data, cool things to try]
 
 # For Development
-To work on this, clone repository and navigate to root directory.
-Run `npm install` and `npm run dev` to install all required packages and startup dev server
+Clone the repository and navigate to the root directory.
+Run `npm install` and `npm run dev` to install all required packages and start up the dev server.
+The webapp will be accessible at https://localhost:3000.
 
 # Sprint 1 Goals (Individual Contributions)
 
-<ul>
-  <li>Krish Maniar: basic UI frontend, testing financial data retrieval on GPT-4 and other open-source models</li>
-  <li>Justin Lim</li>
-  <li>Winston Shum</li>
-  <li>Collin Jung</li>
-  <li>Jakob Nordhagen: work on frontend UI, research on RAG, preliminary work on API integration</li>
-</ul>
+- Krish Maniar: basic UI frontend, testing financial data retrieval on GPT-4 and other open-source models
+- Justin Lim
+- Winston Shum
+- Collin Jung
+- Jakob Nordhagen: 
+    - **This sprint:** Broadly, my contributions to Sprint 1 consisted of research, development, and experimentation. I investigated the current state of the market for our type of product in order to understand where our application will fit in, finding that AlphaSense is the solution to beat. I experimented with a RAG model for parsing documents with Langchain (loosely collaborating with Winston and Justin) and I implemented a basic login/signup modal component with React Bootstrap.
+    - **Going forward:** During the next sprint, I expect to focus on integrating LLM functionality into our app, as well as building out a backend and augmenting/redesigning our current frontend. I may also work on brainstorming new features to build in other than our main RAG document-based QA solution, as I believe we will ultimately need more in order for our project to be compelling.
+
