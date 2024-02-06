@@ -11,7 +11,7 @@ The webapp will be accessible at https://localhost:3000.
 # Sprint 1 Goals (Individual Contributions)
 
 - Krish Maniar: basic UI frontend, testing financial data retrieval on GPT-4 and other open-source models
-- Justin Lim
+- Justin Lim: This sprint, I helped create our figma mocks, interviewed multiple investors/analysts for need-finding, and added a basic sidebar with routing to our web application. I also worked on setting up and running our first multi-modal RAG system, and created the demo video that demonstrates its ability to accurately parse data from tables and text. Note, the code for that pipeline is in a colab notebook and isn't in the github yet. Next sprint, I will focus on building out the front end and improving the model.
 - Winston Shum
 - Collin Jung
 - Jakob Nordhagen: 
