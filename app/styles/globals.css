@@ -9,12 +9,18 @@ body {
 .page-container {
     padding: 0;
     margin: 0;
+    min-width: 100%;
 }
 .sidebar {
     margin: 0;
     padding: 0;
-    min-width: 330px;
-    max-width: 330px;
+    min-width: 300px;
+    max-width: 300px;
+    border-right: 1px solid #ddd;
+}
+
+.row-container {
+    min-height: 100vh;
 }
 
 .w50 {

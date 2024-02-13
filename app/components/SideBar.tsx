@@ -2,30 +2,33 @@
 
 import React from 'react';
 import styles from '../styles/SideBar.module.css';
-// import '../styles/SideBar.css';
-import { Nav, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import Link from 'next/link';
+
 import 'bootstrap/dist/css/bootstrap.css';
 
+const links = [{ name: 'Home', href: '/' }, { name: 'Dashboard', href: '/dashboard' }, { name: 'Settings', href: '/settings' }, { name: 'Something', href: '/something' } ];
+
 const SideBar = () => {
-  return (
-    <Row>
-        <Col>
-            <Nav defaultActiveKey="/dashboard" className={styles.sidebar}>
+    return (
+        <Row>
+            <Col>
                 <h3 className={styles.header}>DiligenceDynamics</h3>
-                <Nav.Item>
-                    <Nav.Link href="/dashboard">Home</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/dashboard/settings">settings</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/dashboard/something">something</Nav.Link>
-                </Nav.Item>
-            </Nav>
-        </Col>
-    </Row>
-    
-  );
+                {links.map((link) => {
+                    return (
+                        <div key={link.name + '-container'}className={styles.sidebaritemcontainer}>
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                            >
+                                <p className={styles.sidebaritem}>{link.name}</p>
+                            </Link>
+                        </div>
+                    );
+                })}
+            </Col>
+        </Row>
+    );
 };
 
 export default SideBar;
