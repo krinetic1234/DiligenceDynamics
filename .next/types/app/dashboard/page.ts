@@ -1,4 +1,4 @@
-// File: /Users/justin/Documents/Justin/Stanford/Coterm/CS224G/DiligenceDynamics/app/dashboard/page.tsx
+// File: /mnt/c/Users/collinj/Documents/CS224G/DiligenceDynamics/app/dashboard/page.tsx
 import * as entry from '../../../../app/dashboard/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

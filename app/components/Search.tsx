@@ -1,8 +1,8 @@
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { InputGroup, FormControl, Button } from "react-bootstrap";
 
 const Search = () => {
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className="mb-3" style={{ width: 500 }}>
       <FormControl
         placeholder="Search for a company..."
         aria-label="Search for a company"
