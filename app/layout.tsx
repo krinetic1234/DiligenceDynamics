@@ -1,24 +1,32 @@
+'use client'
+
 import SideBar from "./components/SideBar";
 import 'bootstrap/dist/css/bootstrap.css';
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
-// import '../styles/globals.css';
 import './styles/globals.css';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
   return (
     <Container fluid className="page-container">
+      <Button onClick={toggleSidebar} className="toggle-sidebar-btn">
+        {sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'}
+      </Button>
       <Row className="row-container">
-        <Col xs={4} className="sidebar">
+        {sidebarVisible && (
+          <Col xs={3} className="sidebar">
             <SideBar />
-        </Col>
-        <Col xs={8}>
-            {children}
+          </Col>
+        )}
+        <Col xs={sidebarVisible ? 9 : 12}>
+          {children}
         </Col>
       </Row>
     </Container>

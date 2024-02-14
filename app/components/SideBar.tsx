@@ -8,9 +8,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const links = [
   { name: 'Home', href: '/', icon: <FaHome /> },
-  { name: 'Dashboard', href: '/dashboard', icon: <FaTachometerAlt /> },
-  { name: 'Settings', href: '/settings', icon: <FaCog /> },
-  { name: 'Something', href: '/something', icon: <FaQuestion /> }
+  { name: 'Document Upload', href: '/document', icon: <FaTachometerAlt /> },
+  { name: 'Sentiment Analysis', href: '/sentiment', icon: <FaQuestion /> },
+  { name: 'Settings', href: '/settings', icon: <FaCog /> }
 ];
 
 const SideBar = () => {

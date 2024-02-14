@@ -5,41 +5,63 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
 }
 
 .messagesContainer {
     flex-grow: 1;
     padding: 10px;
     overflow-y: auto;
+    background-color: #e5e5e5; /* lighter background for the message area */
 }
 
 .message {
+    max-width: 80%; /* Ensures messages don't stretch too wide */
     margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 20px; /* More pronounced rounding for a modern look */
+    background-color: #f9f9f9; /* Light grey background for messages */
+    border: 1px solid #ddd; /* Subtle border for definition */
+    word-wrap: break-word; /* Ensures long words don't overflow */
+}
+
+.userMessage {
+    align-self: flex-end; /* Aligns user messages to the right */
+    background-color: #007bff; /* Distinguishes user messages with color */
+    color: white; /* Ensures text is readable on the colored background */
 }
 
 .inputContainer {
     display: flex;
+    background-color: #f0f0f0; /* Consistent background with the message bubbles */
 }
-
+  
 .inputField {
     flex-grow: 1;
     padding: 10px;
     border: none;
     border-top: 1px solid #ccc;
+    border-radius: 0; /* Align with overall chat container */
+    outline: none; /* Removes the default focus outline */
 }
-
+  
+.inputField:focus {
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle inset shadow on focus */
+}
+  
 .sendButton {
     padding: 10px 20px;
     border: none;
     border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc; /* Slight separation from input field */
     background-color: #007bff;
     color: white;
     cursor: pointer;
+    border-bottom-right-radius: 4px; /* Rounded corner for the button */
 }
-
-.sendButton:hover {
+  
+.sendButton:hover,
+.sendButton:focus {
     background-color: #0056b3;
+    outline: none; /* Removes the default focus outline */
 }

@@ -14,6 +14,13 @@ body {
     min-width: 100%;
 }
 
+.toggle-sidebar-btn {
+    position: fixed;
+    z-index: 100; 
+    top: 10px; 
+    left: 10px;
+}
+
 .sidebar {
     margin: 0;
     padding: 0;
