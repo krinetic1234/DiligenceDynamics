@@ -1,3 +1,35 @@
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./app/styles/globals.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f7f7f7;
+}
+
+.page-container {
+    padding: 0;
+    margin: 0;
+    min-width: 100%;
+}
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    border-right: 5px solid gray;
+}
+
+.row-container {
+    min-height: 100vh;
+}
+
+.w50 {
+    width: 50px;
+}
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./node_modules/bootstrap/dist/css/bootstrap.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************/
@@ -11980,88 +12012,60 @@ textarea.form-control-lg {
 /*!*************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[3]!./app/styles/SideBar.module.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************************/
-/* .sidebar {
-    background-color: #343a40;
-    color: white;
-    padding: 10px;
-    padding-left: 0;
-    height: 100vh;
-} */
-
 .SideBar_sidebar__SoCVU {
-    flex-direction: column;
-    height: 100vh;
-    background-color: #343a40;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: white;
+    background-color: #2d353c;
+    color: #a8acb1;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-.SideBar_sidebar__SoCVU a {
-    color: white;
-}
-
-.SideBar_sidebar__SoCVU a:hover {
-    color: #f8f9fa;
-}
-
-.SideBar_header__y2cOG {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 15px;
-}
-
-.SideBar_sidebaritem__OYAHS {
-    /* color: black; */
-    /* justify-content: center; */
-    /* padding-left: 20px; */
-    /* display: inline-block; */
-    padding-left: 10px;
+.SideBar_profile__82ZZn {
     text-align: center;
-    text-decoration: none;
-    background-color: #007bff; /* You can change this color to your preferred button color */
-    color: #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    margin-bottom: 30px;
 }
 
-.SideBar_sidebaritemcontainer__KyWnj {
-    margin-left: 20px;
-    margin-right: 20px;
+.SideBar_profileImage__E2gF9 {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.SideBar_profileName__FXCTs {
+    color: #ffffff;
+}
+
+.SideBar_navLinks__l4BHv {
+    display: flex;
+    flex-direction: column;
+}
+
+.SideBar_navItem__2OMkx {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: #a8acb1;
+    border-radius: 15px; 
+    transition: all 0.3s ease-in-out; 
+}
+  
+.SideBar_navItem__2OMkx:hover {
+    background: linear-gradient(145deg, #1a1e23, #2d353c);
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transform: scale(1.05); 
+}
+
+.SideBar_icon__P_VnP {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.SideBar_title__EWNb_ {
+    flex-grow: 1;
 }
 
 /* items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3' */
-/*!********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./app/styles/globals.css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************/
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #f7f7f7;
-}
-
-.page-container {
-    padding: 0;
-    margin: 0;
-    min-width: 100%;
-}
-.sidebar {
-    margin: 0;
-    padding: 0;
-    min-width: 300px;
-    max-width: 300px;
-    border-right: 1px solid #ddd;
-}
-
-.row-container {
-    min-height: 100vh;
-}
-
-.w50 {
-    width: 50px;
-}

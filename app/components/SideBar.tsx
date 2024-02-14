@@ -1,33 +1,38 @@
-"use client"
-
 import React from 'react';
 import styles from '../styles/SideBar.module.css';
-import { Row, Col } from 'react-bootstrap';
+import Image from 'next/image'
 import Link from 'next/link';
+import { FaHome, FaTachometerAlt, FaCog, FaQuestion } from 'react-icons/fa'; // Example using Font Awesome icons
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-const links = [{ name: 'Home', href: '/' }, { name: 'Dashboard', href: '/dashboard' }, { name: 'Settings', href: '/settings' }, { name: 'Something', href: '/something' } ];
+const links = [
+  { name: 'Home', href: '/', icon: <FaHome /> },
+  { name: 'Dashboard', href: '/dashboard', icon: <FaTachometerAlt /> },
+  { name: 'Settings', href: '/settings', icon: <FaCog /> },
+  { name: 'Something', href: '/something', icon: <FaQuestion /> }
+];
 
 const SideBar = () => {
     return (
-        <Row>
-            <Col>
-                <h3 className={styles.header}>DiligenceDynamics</h3>
+        <div className={styles.sidebar}>
+            <div className={styles.profile}>
+                <Image src="/pfp.png" alt="Profile" width={100} height={100} className={styles.profileImage} />
+                <h3 className={styles.profileName}>Krish Maniar</h3>
+            </div>
+            <div className={styles.navLinks}>
                 {links.map((link) => {
                     return (
-                        <div key={link.name + '-container'}className={styles.sidebaritemcontainer}>
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                            >
-                                <p className={styles.sidebaritem}>{link.name}</p>
-                            </Link>
-                        </div>
+                        <Link legacyBehavior key={link.name} href={link.href}>
+                            <a className={styles.navItem}>
+                                <span className={styles.icon}>{link.icon}</span>
+                                <span className={styles.title}>{link.name}</span>
+                            </a>
+                        </Link>
                     );
                 })}
-            </Col>
-        </Row>
+            </div>
+        </div>
     );
 };
 
