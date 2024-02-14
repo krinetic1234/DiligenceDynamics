@@ -1,13 +1,13 @@
 // ./app/page.tsx
 "use client";
 import "bootstrap/dist/css/bootstrap.css";
+import "./styles/globals.css";
 import React from "react";
 import { Container } from "react-bootstrap";
-import Search from "./components/Search";
-import "./styles/globals.css";
-
-import FinanceChart from "./components/FinanceChart";
 import moment from "moment-timezone";
+import Search from "./components/Search";
+import NewsList from "./components/NewsList";
+import FinanceChart from "./components/FinanceChart";
 
 const Landing = () => {
   moment.tz.setDefault("America/New_York");
@@ -20,7 +20,8 @@ const Landing = () => {
         <p>Search for a company to get started</p>
       </div>
       <Search companyData={companyData} setCompanyData={setCompanyData} />
-      <FinanceChart data={companyData} />
+      {companyData ? <FinanceChart companyData={companyData} /> : null}
+      {companyData ? <NewsList companyData={companyData} /> : null}
     </Container>
   );
 };

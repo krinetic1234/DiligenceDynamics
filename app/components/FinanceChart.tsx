@@ -1,13 +1,13 @@
 import React from "react";
 import "chart.js/auto";
 import { Line } from "react-chartjs-2";
-import "chartjs-adapter-date-fns"; // Import the adapter
+import "chartjs-adapter-date-fns";
 
-const FinanceChart = ({ data }) => {
-  if (data == null) {
+const FinanceChart = ({ companyData }) => {
+  if (companyData == null) {
     return;
   }
-  if (!data.results || data.resultsCount === 0) {
+  if (!companyData.results || companyData.resultsCount === 0) {
     return (
       <div
         style={{
@@ -28,11 +28,13 @@ const FinanceChart = ({ data }) => {
   }
 
   const chartData = {
-    labels: data.results.map((result) => new Date(result.t)),
+    labels: companyData.results.map((result) => new Date(result.t)),
     datasets: [
       {
-        label: data.ticker + " Close Price",
-        data: data.results.map((result) => parseFloat(result.c).toFixed(2)),
+        label: companyData.ticker + " Close Price",
+        data: companyData.results.map((result) =>
+          parseFloat(result.c).toFixed(2)
+        ),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
