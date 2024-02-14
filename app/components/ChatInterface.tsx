@@ -10,6 +10,7 @@ const ChatInterface = () => {
   const sendMessage = (e) => {
     e.preventDefault();
     if (input.trim() !== '') {
+      // Here you would typically handle sending the message to your AI service
       setMessages([...messages, { text: input, sender: 'user' }]);
       setInput('');
     }
@@ -19,7 +20,7 @@ const ChatInterface = () => {
     <div className={styles.chatContainer}>
       <div className={styles.messagesContainer}>
         {messages.map((message, index) => (
-          <div key={index} className={`${styles.message} ${message.sender === 'user' ? styles.userMessage : ''}`}>
+          <div key={index} className={styles.message}>
             {message.text}
           </div>
         ))}
@@ -31,7 +32,6 @@ const ChatInterface = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your question..."
-          autoFocus
         />
         <button type="submit" className={styles.sendButton}>Send</button>
       </form>
