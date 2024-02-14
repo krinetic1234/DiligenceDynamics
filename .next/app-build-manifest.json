@@ -17,6 +17,16 @@
       "static/chunks/main-app.js",
       "static/css/app/document/page.css",
       "static/chunks/app/document/page.js"
+    ],
+    "/sentiment/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/sentiment/page.js"
+    ],
+    "/settings/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/settings/page.js"
     ]
   }
 }
