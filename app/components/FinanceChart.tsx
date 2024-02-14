@@ -2,6 +2,7 @@ import React from "react";
 import "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns"; // Import the adapter
+import nasdaq_map from "../nasdaq_map.json";
 
 const FinanceChart = ({ data }) => {
   if (data == null) {
@@ -32,7 +33,7 @@ const FinanceChart = ({ data }) => {
     datasets: [
       {
         label: data.ticker + " Close Price",
-        data: data.results.map((result) => result.c),
+        data: data.results.map((result) => parseFloat(result.c).toFixed(2)),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
