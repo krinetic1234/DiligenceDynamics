@@ -2,7 +2,6 @@ import React from "react";
 import "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns"; // Import the adapter
-import nasdaq_map from "../nasdaq_map.json";
 
 const FinanceChart = ({ data }) => {
   if (data == null) {

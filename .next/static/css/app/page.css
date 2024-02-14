@@ -11977,53 +11977,6 @@ textarea.form-control-lg {
 }
 
 /*# sourceMappingURL=bootstrap.css.map */
-/*!********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./app/styles/globals.css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************/
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f7f7f7;
-}
-
-.page-container {
-  padding: 0;
-  margin: 0;
-  min-width: 100%;
-}
-.sidebar {
-  margin: 0;
-  padding: 0;
-  min-width: 300px;
-  max-width: 300px;
-  border-right: 1px solid #ddd;
-}
-
-.row-container {
-  min-height: 100vh;
-}
-
-.w50 {
-  width: 50px;
-}
-
-.datepicker {
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: center;
-}
-
-.datepicker input {
-  padding: 5px;
-  width: 100px;
-  margin-top: 8px;
-  margin-bottom: 16px;
-}
-
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./node_modules/react-datepicker/dist/react-datepicker.css ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -12792,5 +12745,60 @@ body {
   width: 1em;
   height: 1em;
   vertical-align: -0.125em;
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!./app/styles/globals.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f7f7f7;
+}
+
+.page-container {
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+}
+.sidebar {
+  margin: 0;
+  padding: 0;
+  min-width: 300px;
+  max-width: 300px;
+  border-right: 1px solid #ddd;
+}
+
+.row-container {
+  min-height: 100vh;
+}
+
+.w50 {
+  width: 50px;
+}
+
+.datepicker {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+}
+
+.datepicker input {
+  padding: 5px;
+  width: 100px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: "center";
+  padding-bottom: 100px;
 }
 
