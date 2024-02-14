@@ -1,28 +1,43 @@
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #f7f7f7;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f7f7f7;
 }
 
 .page-container {
-    padding: 0;
-    margin: 0;
-    min-width: 100%;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
 }
 .sidebar {
-    margin: 0;
-    padding: 0;
-    min-width: 300px;
-    max-width: 300px;
-    border-right: 1px solid #ddd;
+  margin: 0;
+  padding: 0;
+  min-width: 300px;
+  max-width: 300px;
+  border-right: 1px solid #ddd;
 }
 
 .row-container {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .w50 {
-    width: 50px;
+  width: 50px;
+}
+
+.datepicker {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+}
+
+.datepicker input {
+  padding: 5px;
+  width: 100px;
+  margin-top: 8px;
+  margin-bottom: 16px;
 }
