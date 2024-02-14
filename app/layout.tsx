@@ -15,20 +15,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <Container fluid className="page-container">
-      <Button onClick={toggleSidebar} className="toggle-sidebar-btn">
-        {sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'}
-      </Button>
-      <Row className="row-container">
-        {sidebarVisible && (
-          <Col xs={3} className="sidebar">
-            <SideBar />
-          </Col>
-        )}
-        <Col xs={sidebarVisible ? 9 : 12}>
-          {children}
-        </Col>
-      </Row>
-    </Container>
+    <html lang="en">
+      <body>
+        <Container fluid className="page-container">
+          <Button onClick={toggleSidebar} className="toggle-sidebar-btn">
+            {sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'}
+          </Button>
+          <Row className="row-container">
+            {sidebarVisible && (
+              <Col xs={3} className="sidebar">
+                <SideBar />
+              </Col>
+            )}
+            <Col xs={sidebarVisible ? 9 : 12}>
+              {children}
+            </Col>
+          </Row>
+        </Container>
+      </body>
+    </html>
+    
   )
 }
