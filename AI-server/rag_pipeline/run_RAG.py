@@ -28,7 +28,7 @@ import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = ''
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_existing_retriever():
