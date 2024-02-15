@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator} from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAn13sG1qawLV4Pb9qo4CVCU5R_4iSqNhM",
@@ -14,7 +14,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Setup emulator for development/testing
+if (window.location.hostname === "localhost") {
+    const auth = getAuth();
+    connectAuthEmulator(auth, "http://localhost:9090");
+  }
+
 const analytics = getAnalytics(app);
 
 // Initialize Firebase Authentication and export
 export const auth = getAuth(app);
+  
