@@ -1,0 +1,96 @@
+.carousel {
+    max-width: 600px; /* Adjust as necessary */
+    margin: auto;
+    position: relative;
+    padding-bottom: 100px; /* Space for dots */
+}
+
+.carouselItem {
+    margin-bottom: 10px;  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px; /* Rounded corners for the card */
+    height: 300px; /* Adjust as necessary */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Card shadow */
+    transition: transform 0.3s ease; /* Smooth transform transition */
+    border: 3px solid black;
+}
+
+.carouselItem:hover {
+    transform: translateY(5px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* Enhanced shadow on hover */
+}
+
+/* Title styling */
+.carouselItem h5 {
+    color: #000;
+    font-size: 20px; /* Adjust as necessary */
+    font-weight: 600; /* Boldness */
+    margin-bottom: 10px; /* Spacing after title */
+    text-align: center;
+}
+
+/* Description styling */
+.carouselItem p {
+    color: #555;
+    font-size: 16px; /* Adjust as necessary */
+    text-align: center;
+    line-height: 1.5; /* Line height for better readability */
+}
+
+/* Arrow style */
+.carousel .control-arrow,
+.carousel.carousel-slider .control-arrow {
+    background-color: black;
+    border-radius: 50%;
+    width: 36px; /* Arrow size */
+    height: 36px; /* Arrow size */
+    opacity: 0.8;
+}
+
+.carousel .control-arrow:hover {
+    opacity: 1;
+}
+
+/* Dots and numbers styling */
+.carousel .carousel-status {
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: black;
+    background: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.carousel .control-dots {
+    bottom: 10px; /* Adjust the bottom position as needed */
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.carousel .control-dots .dot {
+    border: 1px solid green;
+    color: green;
+    width: 30px;
+    height: 12px;
+    border: 5px solid green;
+    background: transparent;
+    margin: 0 6px; /* Horizontal spacing between dots */
+    transition: background-color 0.3s ease;
+}
+
+.carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
+    background: green;
+}
+
+/* Ensure the 'selected' style overrides the 'hover' style */
+.carousel .control-dots .dot.selected:hover {
+    background: green;
+}

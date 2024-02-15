@@ -18,9 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Container fluid className="page-container">
-          <Button onClick={toggleSidebar} className="toggle-sidebar-btn">
-            {sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'}
-          </Button>
+          <button onClick={toggleSidebar} className="toggle-sidebar-btn">
+            {sidebarVisible ? '<' : '>'}
+          </button>
           <Row className="row-container">
             {sidebarVisible && (
               <Col xs={3} className="sidebar">

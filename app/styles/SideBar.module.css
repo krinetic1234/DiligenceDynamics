@@ -1,8 +1,12 @@
 .sidebar {
     background-color: #2d353c;
     color: #a8acb1;
-    min-height: 100vh;
+    min-height: 100%;
     padding: 20px;
+    position: fixed;
+    top: 0; /* Align to the top of the viewport */
+    bottom: 0; /* Stretch to the bottom of the viewport */
+    overflow-y: auto; /* Enable scrolling within the sidebar if needed */
 }
 
 .profile {
