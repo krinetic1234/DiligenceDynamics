@@ -1,8 +1,6 @@
 # DiligenceDynamics
 A suite of LLM-powered products for financial investors (QA RAG model, automated excel operations, predictive analytics, market sentiment)
 
-[Insert details on how to use the app, link to test data, cool things to try]
-
 # For Development
 Clone the repository and navigate to the root directory.
 Run `npm install` and `npm run dev` to install all required packages and start up the dev server. Also, navigate to the AI-server folder, then install all the necessary packages.
@@ -18,6 +16,8 @@ You also need to install some brew packages by doing the following:
 Now, run `python3 server.py` to start the Flask server that will handle all requests related to AI/LLMs. It takes about a minute for the server to start up the first time but then it will hot reload when files change.
 
 You also need to add your secret keys to the `AI-server/rag_pipeline/process_RAG.py` and `AI-server/rag_pipeline/run_RAG.py` files
+
+NOTE: If you're working with authentication (login/signup), run `firebase emulators:start` to start a local Firebase emulator where you can view authentication data.
 
 The web app will be accessible at https://localhost:3000.
 
