@@ -20,6 +20,7 @@ The webapp will be accessible at https://localhost:3000.
  
 # Sprint 2
 - Collin Jung: During this sprint, I designed and implemented the landing page. Functionality of this page includes search for NASDAQ companies by name and ticker with working autofill. On selecting a company, a chart showing stock price at close is displayed with adjustable date parameters. Also displayed is 2 changes in price: (1) Price change over the current day (2) Price difference between current date and whichever date chosen as start date. The color of the price changes based on net gain/loss with green for positive gain and red for negative loss. Underneath the chart is a list of the top 5 articles related to the company name. APIs used: News API (News articles), Polygon.io API (NASDAQ market info). To be done: Better design for articles, Summary for companies.
+- Winston Shum: For this sprint, I finalized the design for the front-end, including how the landing page, the chat page, and the page for a specific company (stock information, company news, etc.) For the coding part, I finalized our RAG model such that it can be run locally and can be called from an API. I also helped setup the firebase database where we have persistent storage of the raw texts, and setup the persistent storage for the vector embeddings. Going forward: will need to implement the drag and drop functionality on the front-end, and will need to experiment with different document types for the RAG model.
 
   **Goals for sprint 3:** Fully integrate RAG model, clean up UI
 
