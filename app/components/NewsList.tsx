@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import nasdaq_map from "../nasdaq_map.json";
+import styles from '../styles/Carousel.module.css'; 
+
 
 const NewsList = ({ companyData }) => {
   const [news, setNews] = useState([]);
@@ -59,20 +63,28 @@ const NewsList = ({ companyData }) => {
   }
 
   return (
-    <div style={{ paddingTop: 30 }}>
+    <div className={styles.carousel}>
       <h2>Latest News for {companyName}</h2>
-      <ul style={{ textAlign: "left" }}>
+      <Carousel
+        showArrows={true}
+        autoPlay={true}
+        infiniteLoop={true}
+        statusFormatter={(current, total) => `${current} of ${total}`}
+        className={styles.carousel}
+        showStatus={false} // Remove default status to use custom style
+        showThumbs={false} // Remove thumbnails if not needed
+       >
         {news.slice(0, 5).map((article, index) => (
-          <li key={index}>
+          <div key={index} className={styles.carouselItem}>
             <a href={article.url} target="_blank" rel="noopener noreferrer">
               <h5>{article.title}</h5>
             </a>
             <p>{article.description}</p>
-          </li>
+          </div>
         ))}
-      </ul>
+      </Carousel>
     </div>
   );
-};
+}
 
 export default NewsList;

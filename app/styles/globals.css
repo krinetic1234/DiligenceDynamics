@@ -17,11 +17,12 @@ body {
 .toggle-sidebar-btn {
   position: fixed;
   z-index: 100;
-  top: 10px;
-  left: 10px;
+  top: 50px;
+  left: 5px;
 }
 
 .sidebar {
+  background-color: #2d353c;
   margin: 0;
   padding: 0;
   border-right: 5px solid gray;
@@ -55,4 +56,32 @@ body {
   align-items: center;
   justify-content: "center";
   padding-bottom: 100px;
+}
+
+.toggle-sidebar-btn {
+  margin-left: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: black; 
+  background-color: #95979e; /* Blue background */
+  border: 1px solid transparent; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  margin-right: 15px;
+  cursor: pointer; /* Cursor indicates clickable button */
+  outline: none;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center; /* Aligns icon with text */
+  justify-content: center; /* Centers text with icon */
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2); /* Subtle shadow */
+}
+
+.toggle-sidebar-btn:hover {
+  color: #fff; /* Keep text white on hover */
+  background-color: gray; /* Background color changes to green */
+  box-shadow: 0 0 8px 0 gray; /* Glowing effect on hover */
+}
+
+.toggle-sidebar-btn:active {
+  transform: translateY(2px); /* Button moves down when clicked */
 }
