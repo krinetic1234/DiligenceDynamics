@@ -5,8 +5,22 @@ A suite of LLM-powered products for financial investors (QA RAG model, automated
 
 # For Development
 Clone the repository and navigate to the root directory.
-Run `npm install` and `npm run dev` to install all required packages and start up the dev server.
-The webapp will be accessible at https://localhost:3000.
+Run `npm install` and `npm run dev` to install all required packages and start up the dev server. Also, navigate to the AI-server folder, then install all the necessary packages.
+You can do that by using the environment.yml file to get the conda environment, so do the following commands:
+- `conda env create --file environment.yml`
+- `conda activate cs224g`
+
+You also need to install some brew packages by doing the following:
+- `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+- `brew update`
+- `brew install poppler tesseract`
+- `brew install cmake`
+Now, run `python3 server.py` to start the Flask server that will handle all requests related to AI/LLMs. It takes about a minute for the server to start up the first time but then it will hot reload when files change.
+
+You also need to add your secret keys to the `AI-server/rag_pipeline/process_RAG.py` and `AI-server/rag_pipeline/run_RAG.py` files
+
+The web app will be accessible at https://localhost:3000.
+
 
 # Sprint 1
 
