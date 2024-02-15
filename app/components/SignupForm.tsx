@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignupForm = () => {
@@ -33,42 +34,47 @@ const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <h2>Sign Up</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {formError && <p style={{ color: 'red' }}>{formError}</p>}
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
+      {error && <Form.Text style={{ color: 'red' }}>{error}</Form.Text>}
+      {formError && <Form.Text style={{ color: 'red' }}>{formError}</Form.Text>}
+      <Form.Group controlId="formBasicEmail" className="mb-3">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
           type="email"
-          id="email"
+          placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
+      </Form.Group>
+
+      <Form.Group controlId="formBasicPassword" className="mb-3">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
           type="password"
-          id="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-      </div>
-      <div>
-        <label htmlFor="confirmPassword">Confirm Password:</label>
-        <input
+      </Form.Group>
+
+      <Form.Group controlId="formConfirmPassword" className="mb-3">
+        <Form.Label>Confirm Password</Form.Label>
+        <Form.Control
           type="password"
-          id="confirmPassword"
+          placeholder="Confirm Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-      </div>
-      <button type="submit">Sign Up</button>
-    </form>
+      </Form.Group>
+
+      <Button variant="primary" type="submit" className="mb-3">
+        Sign Up
+      </Button>
+    </Form>
   );
 };
 

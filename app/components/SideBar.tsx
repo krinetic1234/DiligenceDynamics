@@ -20,9 +20,6 @@ const SideBar = () => {
                 <Image src="/pfp.png" alt="Profile" width={100} height={100} className={styles.profileImage} />
                 <h3 className={styles.profileName}>Krish Maniar</h3>
             </div>
-            <Link legacyBehavior href="/login" passHref>
-                <a style={{color: 'blue', textDecoration: 'underline'}}>Log in</a>
-            </Link>
             <div className={styles.navLinks}>
                 {links.map((link) => {
                     return (
@@ -35,6 +32,9 @@ const SideBar = () => {
                     );
                 })}
             </div>
+            <Link legacyBehavior href="/login" passHref>
+                <a>Log in</a>
+            </Link>
         </div>
     );
 };

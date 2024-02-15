@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginForm: React.FC = () => {
@@ -16,7 +17,7 @@ const LoginForm: React.FC = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('Logged in successfully');
-      // Handle successful login (e.g., redirect to a dashboard)
+      // Handle successful login
     } catch (error: any) {
       setError(error.message);
       console.error('Failed to log in:', error.message);
@@ -24,31 +25,36 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        <h2>Log in</h2>
-        <label htmlFor="email">Email:</label>
-        <input
+    <Form onSubmit={handleLogin}>
+      <h2>Log in</h2>
+      <Form.Group controlId="formBasicEmail" className="mb-3">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
           type="email"
-          id="email"
+          placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
+      </Form.Group>
+
+      <Form.Group controlId="formBasicPassword" className="mb-3">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
           type="password"
-          id="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-      </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit">Log In</button>
-    </form>
+      </Form.Group>
+
+      {error && <Form.Text style={{ color: 'red' }}>{error}</Form.Text>}
+
+      <Button variant="primary" type="submit" className="mb-3">
+        Log In
+      </Button>
+    </Form>
   );
 };
 

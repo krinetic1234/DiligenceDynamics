@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/firebaseConfig'; 
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
+import '../styles/globals.css';
 
 const Page: React.FC = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -28,12 +30,18 @@ const Page: React.FC = () => {
   }
 
   return (
-    <div>
-      {showSignup ? <SignupForm /> : <LoginForm />}
-      <button onClick={toggleForm}>
-        {showSignup ? 'Already have an account? Log in' : "Don't have an account? Sign up"}
-      </button>
-    </div>
+    <Container className="mt-5">
+    <Row className="justify-content-md-center">
+    <Col xs={12} md={6}>
+        <div>
+            {showSignup ? <SignupForm /> : <LoginForm />}
+            <Button variant="Secondary" onClick={toggleForm} className="underline-text">
+                {showSignup ? 'Already have an account? Log in' : "Don't have an account? Sign up"}
+            </Button>
+        </div>
+    </Col>
+    </Row>
+    </Container>
   );
 };
 
