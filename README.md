@@ -40,4 +40,8 @@ The web app will be accessible at https://localhost:3000.
 - Collin Jung: During this sprint, I designed and implemented the landing page. Functionality of this page includes search for NASDAQ companies by name and ticker with working autofill. On selecting a company, a chart showing stock price at close is displayed with adjustable date parameters. Also displayed is 2 changes in price: (1) Price change over the current day (2) Price difference between current date and whichever date chosen as start date. The color of the price changes based on net gain/loss with green for positive gain and red for negative loss. Underneath the chart is a list of the top 5 articles related to the company name. APIs used: News API (News articles), Polygon.io API (NASDAQ market info). To be done: Better design for articles, Summary for companies.
 - Jakob Nordhagen
 
-**Goals for sprint 3:** Fully integrate RAG model, clean up UI
+# Sprint 3
+
+- Fully integrate RAG model
+- Clean up UI and complete user profile authentication
+- Add sentiment analysis feature
