@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../styles/SideBar.module.css';
 import Image from 'next/image'
 import Link from 'next/link';
-import { FaHome, FaTachometerAlt, FaCog, FaQuestion } from 'react-icons/fa'; // Example using Font Awesome icons
+import { FaHome, FaTachometerAlt, FaCog, FaQuestion, FaUser} from 'react-icons/fa'; // Example using Font Awesome icons
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -10,7 +10,8 @@ const links = [
   { name: 'Home', href: '/', icon: <FaHome /> },
   { name: 'Document Upload', href: '/document', icon: <FaTachometerAlt /> },
   { name: 'Sentiment Analysis', href: '/sentiment', icon: <FaQuestion /> },
-  { name: 'Settings', href: '/settings', icon: <FaCog /> }
+  { name: 'Settings', href: '/settings', icon: <FaCog /> },
+  { name: 'Login / Sign up', href: '/login', icon: <FaUser /> }
 ];
 
 const SideBar = () => {
