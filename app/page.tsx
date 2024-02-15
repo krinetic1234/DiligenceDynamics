@@ -3,11 +3,12 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles/globals.css";
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import moment from "moment-timezone";
 import Search from "./components/Search";
 import NewsList from "./components/NewsList";
 import FinanceChart from "./components/FinanceChart";
+import ChatInterface from "./components/ChatInterface";
 
 const Landing = () => {
   moment.tz.setDefault("America/New_York");
@@ -20,8 +21,16 @@ const Landing = () => {
         <p>Search for a company to get started</p>
       </div>
       <Search companyData={companyData} setCompanyData={setCompanyData} />
-      {companyData ? <FinanceChart companyData={companyData} /> : null}
-      {companyData ? <NewsList companyData={companyData} /> : null}
+      <Row>
+        <Col>
+          {companyData ? <FinanceChart companyData={companyData} /> : null}
+          {companyData ? <ChatInterface /> : null}
+        </Col>
+        <Col>
+          {companyData ? <NewsList companyData={companyData} /> : null}
+        </Col>
+      </Row>
+      
     </Container>
   );
 };

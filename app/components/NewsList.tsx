@@ -17,13 +17,20 @@ const NewsList = ({ companyData }) => {
       companyName
     )}&from=${
       date.toISOString().split("T")[0]
-    }&language=en&sortBy=popularity&apiKey=${news_api_key}`;
+    }&language=en&sortBy=relevancy&apiKey=${news_api_key}`;
 
     const fetchNews = async () => {
       try {
         const response = await fetch(url);
         const data = await response.json();
         if (data.status === "ok") {
+          // let sorted_articles_by_company_relevance = data.articles.sort((a, b) => {
+          //   return (
+          //     b.title.includes(companyName) - a.title.includes(companyName)
+          //   );
+          // });
+          // console.log('sorted_articles_by_company_relevance:', sorted_articles_by_company_relevance);
+          // setNews(sorted_articles_by_company_relevance);
           setNews(data.articles);
         } else {
           setError(data.message || "Failed to fetch news");

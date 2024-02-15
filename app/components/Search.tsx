@@ -26,6 +26,7 @@ const Search = ({ companyData, setCompanyData }) => {
       } else {
         const start = startDate.toISOString().split("T")[0];
         const end = endDate.toISOString().split("T")[0];
+        console.log('query', query.toUpperCase());
         const response = await fetch(
           `https://api.polygon.io/v2/aggs/ticker/${query.toUpperCase()}/range/1/day/${start}/${end}?adjusted=true&sort=asc&limit=120&apiKey=${api_key}`
         );
