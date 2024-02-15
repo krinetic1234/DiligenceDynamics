@@ -8,6 +8,8 @@
   "devDependencies": {
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
+    "firebase": "^10.8.0",
+    "react-firebase-hooks": "^5.1.1",
     "typescript": "5.3.3"
   },
   "dependencies": {
