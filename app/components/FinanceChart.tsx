@@ -72,7 +72,7 @@ const FinanceChart = ({ companyData }) => {
 
   return (
     <div style={{ width: 600 }}>
-      <Line data={chartData} />
+      <Line data={chartData} options={options}/>
     </div>
   );
 };

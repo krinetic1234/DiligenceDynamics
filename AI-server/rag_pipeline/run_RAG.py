@@ -96,7 +96,7 @@ def run_RAG(retriever):
   # print(prompt)
 
   # Option 1: LLM
-  model = ChatOpenAI(temperature=0, model="gpt-4-0125-preview")
+  model = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0125")  # gpt-4-0125-preview
   # Option 2: Multi-modal LLM
   # model = GPT4-V or LLaVA
 
