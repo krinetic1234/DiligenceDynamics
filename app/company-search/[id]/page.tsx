@@ -27,15 +27,8 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
 
 	const handleSearch = async (input) => {
     try {
-			console.log('hey 1');
-			console.log('input:', input);
       let query = input;
-			// setQuery(input);
-			console.log('query:', query);
-      // if (query === "") {
-      //   setCompanyData(null);
-      // } else {
-			console.log('hey 2');
+
 			const start = startDate.toISOString().split("T")[0];
 			const end = endDate.toISOString().split("T")[0];
 			console.log('query', query.toUpperCase());
@@ -68,11 +61,6 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
 
   return (
     <Container className="text-center mt-5 landing">
-      {/* <div style={{ marginTop: 50, paddingBottom: 50 }}>
-        <h1>Welcome to DiligenceDynamics</h1>
-        <p>Search for a company to get started</p>
-      </div> */}
-      {/* <Search companyData={companyData} setCompanyData={setCompanyData} /> */}
 			<Row>
 				{companyData && companyData.results ? (
 					<div>
@@ -104,21 +92,6 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
 												borderBottom: "0px solid #000",
 											}}
 										>
-											{/* <h4>
-												{nasdaq_map[companyData.ticker]}{" "}
-												<span className="h5">(NASDAQ:{companyData.ticker})</span>
-											</h4> */}
-											{/* <div>
-												{stockDiff > 0 ? (
-													<span className="h5" style={{ color: "green" }}>
-														↑ {stockDiff.toFixed(2)}% Today
-													</span>
-												) : (
-													<span className="h5" style={{ color: "red" }}>
-														↓ {stockDiff.toFixed(2)}% Today
-													</span>
-												)}
-											</div> */}
 										</div>
 										<div
 											style={{
@@ -191,11 +164,6 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
 					</Accordion.Body>
 				</Accordion.Item>
 			</Accordion>
-			
-			{/* <Row>
-				{companyData ? <ChatInterface /> : null}
-			</Row> */}
-      
     </Container>
   );
 };
