@@ -17,7 +17,9 @@ Now, run `python3 server.py` to start the Flask server that will handle all requ
 
 You also need to add your secret keys to the `AI-server/rag_pipeline/process_RAG.py` and `AI-server/rag_pipeline/run_RAG.py` files
 
-NOTE: If you're working with authentication (login/signup), run `firebase emulators:start` to start a local Firebase emulator where you can view authentication data.
+NOTE: If you're working with authentication (login/signup), install Firebase's CLI to start a local Firebase emulator where you can view authentication data: 
+- `npm install -g firebase-tools`
+- `firebase emulators:start`  
 
 The web app will be accessible at https://localhost:3000.
 
