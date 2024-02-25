@@ -4,6 +4,7 @@ import { InputGroup, FormControl, Button, ListGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import nasdaq_map from "../nasdaq_map.json";
+import { useRouter } from 'next/navigation'
 
 const Search = ({ companyData, setCompanyData }) => {
   const [inputValue, setInputValue] = useState("");
@@ -17,6 +18,8 @@ const Search = ({ companyData, setCompanyData }) => {
   );
   const [endDate, setEndDate] = React.useState(new Date());
   const [query, setQuery] = React.useState("");
+
+  const router = useRouter();
 
   const handleSearch = async (input) => {
     try {
@@ -96,9 +99,10 @@ const Search = ({ companyData, setCompanyData }) => {
   };
 
   const handleSuggestionClick = (symbol) => {
-    setInputValue(symbol);
-    setShowSuggestions(false);
-    handleSearch(symbol);
+    // setInputValue(symbol);
+    // setShowSuggestions(false);
+    // handleSearch(symbol);
+    router.push('/company-search/' + symbol);
   };
 
   return (

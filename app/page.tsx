@@ -16,7 +16,7 @@ const Landing = () => {
 
   return (
     <Container className="text-center mt-5 landing">
-      <div style={{ marginTop: 75, paddingBottom: 50 }}>
+      <div style={{ marginTop: 50, paddingBottom: 50 }}>
         <h1>Welcome to DiligenceDynamics</h1>
         <p>Search for a company to get started</p>
       </div>
