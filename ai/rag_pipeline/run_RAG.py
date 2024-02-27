@@ -27,13 +27,25 @@ from langchain_core.runnables import RunnablePassthrough
 import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
+from pinecone import Pinecone
+from langchain.vectorstores import Pinecone as PineconeVectorStore
 
-os.environ["OPENAI_API_KEY"] = ''
+os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
 
 def get_existing_retriever():
   if not firebase_admin._apps:
-    cred = credentials.Certificate('rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json')
+    credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    current_directory = os.getcwd()
+
+    # Specify the string you want to check
+    desired_directory_name = "rag_pipeline"
+    # Check if the current directory name is the desired string
+    if os.path.basename(current_directory) == desired_directory_name:
+      credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    cred = credentials.Certificate(credential_path)
     firebase_admin.initialize_app(cred)
   db = firestore.client()
 
@@ -51,7 +63,17 @@ def get_existing_retriever():
     documents_for_docstore.append((doc.id, body))
 
   store = InMemoryStore()
-  vectorstore = Chroma(collection_name="summaries", embedding_function=OpenAIEmbeddings(), persist_directory='rag_pipeline/persist_db')
+  # vectorstore = Chroma(collection_name="summaries", embedding_function=OpenAIEmbeddings(), persist_directory='rag_pipeline/persist_db')
+  pc = Pinecone(api_key=pinecone_api_key)
+  index_name = 'cs224g-documents'
+  index = pc.Index(index_name)
+  index.describe_index_stats()
+  text_field = "text"
+
+  vectorstore = PineconeVectorStore(
+      index, OpenAIEmbeddings().embed_query, text_field
+  )
+
   retriever = MultiVectorRetriever(
     vectorstore=vectorstore,
     docstore=store,
@@ -96,7 +118,7 @@ def run_RAG(retriever):
   # print(prompt)
 
   # Option 1: LLM
-  model = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0125")  # gpt-4-0125-preview
+  model = ChatOpenAI(temperature=0, model="gpt-4-0125-preview")
   # Option 2: Multi-modal LLM
   # model = GPT4-V or LLaVA
 
@@ -130,4 +152,4 @@ def main(query):
   # chain.invoke("Explain images / figures with playful and creative examples.")
 
 if __name__ == "__main__":
-  main()
+  main('What was the reported revenue?')

@@ -8,6 +8,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { storage } from '../firebase/firebaseConfig';
 import { ref, list, getDownloadURL, getMetadata } from 'firebase/storage';
 import { FcDocument } from 'react-icons/fc';
+import '../styles/globals.css';
 
 export default function Page() {
     const columns = [{ header: 'fileName', name: 'File Name' }, { header: 'date', name: 'Date Uploaded' }, { header: 'manual', name: 'Manually Uploaded' }, { header: 'downloadURL', name: 'Download' }];
@@ -117,8 +118,9 @@ export default function Page() {
         <Container fluid className="page-container">
             <Row>
                 <Col>
+                    <h1 className="pt-5 pb-2">Company Documents</h1>
                     <CompanyPicker companySymbol={companySymbol} setCompanySymbol={setCompanySymbol}/>
-                    <DocumentUploader />
+                    <DocumentUploader companySymbol={companySymbol} onUploadSuccess={fetchFiles}/>
                     <Table tableProps={{ bordered: true }} tableCols={columns} tableData={tableData} customColumns={customColumns} />
                 </Col>
             </Row>
