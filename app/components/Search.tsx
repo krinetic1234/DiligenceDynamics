@@ -4,7 +4,7 @@ import { InputGroup, FormControl, Button, ListGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import nasdaq_map from "../nasdaq_map.json";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 const Search = ({ companyData, setCompanyData }) => {
   const [inputValue, setInputValue] = useState("");
@@ -17,44 +17,44 @@ const Search = ({ companyData, setCompanyData }) => {
     new Date(Date.now() - 92 * 86400000) // 24 * 60 * 60 * 1000
   );
   const [endDate, setEndDate] = React.useState(new Date());
-  const [query, setQuery] = React.useState("");
+  // const [query, setQuery] = React.useState("");
 
   const router = useRouter();
 
-  const handleSearch = async (input) => {
-    try {
-      setQuery(input);
-      if (query === "") {
-        setCompanyData(null);
-      } else {
-        const start = startDate.toISOString().split("T")[0];
-        const end = endDate.toISOString().split("T")[0];
-        console.log('query', query.toUpperCase());
-        const response = await fetch(
-          `https://api.polygon.io/v2/aggs/ticker/${query.toUpperCase()}/range/1/day/${start}/${end}?adjusted=true&sort=asc&limit=120&apiKey=${api_key}`
-        );
-        const data = await response.json();
-        if (data.results.length > 1) {
-          const currentClose = data.results[data.results.length - 1].c;
-          const prevClose = data.results[data.results.length - 2].c;
-          const earliestClose = data.results[0].c;
+  // const handleSearch = async (input) => {
+  //   try {
+  //     setQuery(input);
+  //     if (query === "") {
+  //       setCompanyData(null);
+  //     } else {
+  //       const start = startDate.toISOString().split("T")[0];
+  //       const end = endDate.toISOString().split("T")[0];
+  //       console.log("query", query.toUpperCase());
+  //       const response = await fetch(
+  //         `https://api.polygon.io/v2/aggs/ticker/${query.toUpperCase()}/range/1/day/${start}/${end}?adjusted=true&sort=asc&limit=120&apiKey=${api_key}`
+  //       );
+  //       const data = await response.json();
+  //       if (data.results.length > 1) {
+  //         const currentClose = data.results[data.results.length - 1].c;
+  //         const prevClose = data.results[data.results.length - 2].c;
+  //         const earliestClose = data.results[0].c;
 
-          let diff = (currentClose / prevClose - 1) * 100;
-          let fullDiff = (currentClose / earliestClose - 1) * 100;
-          setStockDiff(diff);
-          setFullDiff(fullDiff);
-        }
-        setCompanyData(data);
-      }
-    } catch (error) {
-      console.error("Error fetching company data:", error);
-      setCompanyData(null);
-    }
-  };
+  //         let diff = (currentClose / prevClose - 1) * 100;
+  //         let fullDiff = (currentClose / earliestClose - 1) * 100;
+  //         setStockDiff(diff);
+  //         setFullDiff(fullDiff);
+  //       }
+  //       setCompanyData(data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching company data:", error);
+  //     setCompanyData(null);
+  //   }
+  // };
 
-  useEffect(() => {
-    handleSearch(query);
-  }, [startDate, endDate, query]);
+  // useEffect(() => {
+  //   handleSearch(query);
+  // }, [startDate, endDate, query]);
 
   useEffect(() => {
     if (inputValue) {
@@ -93,16 +93,17 @@ const Search = ({ companyData, setCompanyData }) => {
     setInputValue(e.target.value);
   };
 
-  const handleButtonClick = () => {
-    handleSearch(inputValue);
-    setShowSuggestions(false);
-  };
+  //
+  // const handleButtonClick = () => {
+  //   handleSearch(inputValue);
+  //   setShowSuggestions(false);
+  // };
 
   const handleSuggestionClick = (symbol) => {
     // setInputValue(symbol);
     // setShowSuggestions(false);
     // handleSearch(symbol);
-    router.push('/company-search/' + symbol);
+    router.push("/company-search/" + symbol);
   };
 
   return (
@@ -120,7 +121,7 @@ const Search = ({ companyData, setCompanyData }) => {
         <Button
           variant="primary"
           id="button-addon2"
-          onClick={handleButtonClick}
+          onClick={() => handleSuggestionClick(inputValue)}
         >
           Search
         </Button>
