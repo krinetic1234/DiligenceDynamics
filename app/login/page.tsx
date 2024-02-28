@@ -1,17 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/firebaseConfig'; 
+import { useRouter } from 'next/navigation';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import '../styles/globals.css';
 
 const Page: React.FC = () => {
   const [user, loading, error] = useAuthState(auth);
-  // State to toggle between login and signup forms
   const [showSignup, setShowSignup] = useState<boolean>(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push('/'); 
+    }
+  }, [user, router]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -23,11 +30,6 @@ const Page: React.FC = () => {
 
   // Toggle the form display
   const toggleForm = () => setShowSignup(!showSignup);
-
-  // If the user is logged in, redirect or show a different component
-  if (user) {
-    return <div>User is already logged in</div>;
-  }
 
   return (
     <Container className="mt-5">
