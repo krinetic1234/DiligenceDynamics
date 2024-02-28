@@ -14,7 +14,7 @@ def company_chat():
     query = request.json['query']
     print('query:', query)
     # run the RAG model
-    response = main(query)
+    response = main(query)['answer']
     print('response:', response)
     return jsonify({'response': response})
 

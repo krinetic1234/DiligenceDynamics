@@ -46,8 +46,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
 
-pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
-
 def format_docs(docs):
   return "\n\n".join(doc.page_content for doc in docs)
 
@@ -174,7 +172,17 @@ def process_results(chain, contextualize_query):
 def get_chat_history():
   chat_history = []
   if not firebase_admin._apps:
-    cred = credentials.Certificate('rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json')
+    # path for running from api
+    credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    current_directory = os.getcwd()
+
+    # Specify the string you want to check
+    desired_directory_name = "rag_pipeline"
+    # Check if the current directory name is the desired string
+    # path for running file directly
+    if os.path.basename(current_directory) == desired_directory_name:
+      credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    cred = credentials.Certificate(credential_path)
     firebase_admin.initialize_app(cred)
   chat_db = firestore.client()
   chat_history_ref = chat_db.collection('chat-history')
@@ -189,7 +197,15 @@ def get_chat_history():
   
 def add_to_chat_history(query, answer):
   if not firebase_admin._apps:
-    cred = credentials.Certificate('rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json')
+    credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    current_directory = os.getcwd()
+
+    # Specify the string you want to check
+    desired_directory_name = "rag_pipeline"
+    # Check if the current directory name is the desired string
+    if os.path.basename(current_directory) == desired_directory_name:
+      credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    cred = credentials.Certificate(credential_path)
     firebase_admin.initialize_app(cred)
   chat_db = firestore.client()
   # zipped_chat = list(zip(query, answer))
@@ -206,8 +222,7 @@ def add_to_chat_history(query, answer):
   #     'answer': answer
   #   })
 
-def main():
-  query = "What about in terms of taxes?"
+def main(query):
   retriever = get_existing_retriever()
   chat_history = get_chat_history()
   
