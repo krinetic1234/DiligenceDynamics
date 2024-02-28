@@ -27,6 +27,8 @@ from langchain_core.runnables import RunnablePassthrough
 import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
+from pinecone import Pinecone
+from langchain.vectorstores import Pinecone as PineconeVectorStore
 import getpass
 import bs4
 from langchain import hub
@@ -39,15 +41,27 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = 'sk-1UkeCKrH8iIfB2KMLMDMT3BlbkFJgu4NOqjEAoLbmHfM6fansk-yICehkcezjZoDBbJkGZPT3BlbkFJk627exYuH9XjgTLjHE3h'
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
+
+pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
 
 def format_docs(docs):
   return "\n\n".join(doc.page_content for doc in docs)
 
 def get_existing_retriever():
   if not firebase_admin._apps:
-    cred = credentials.Certificate('rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json')
+    credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    current_directory = os.getcwd()
+
+    # Specify the string you want to check
+    desired_directory_name = "rag_pipeline"
+    # Check if the current directory name is the desired string
+    if os.path.basename(current_directory) == desired_directory_name:
+      credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
+    cred = credentials.Certificate(credential_path)
     firebase_admin.initialize_app(cred)
   db = firestore.client()
 
@@ -63,7 +77,17 @@ def get_existing_retriever():
     documents_for_docstore.append((doc.id, body))
 
   store = InMemoryStore()
-  vectorstore = Chroma(collection_name="summaries", embedding_function=OpenAIEmbeddings(), persist_directory='rag_pipeline/persist_db')
+  # vectorstore = Chroma(collection_name="summaries", embedding_function=OpenAIEmbeddings(), persist_directory='rag_pipeline/persist_db')
+  pc = Pinecone(api_key=pinecone_api_key)
+  index_name = 'cs224g-documents'
+  index = pc.Index(index_name)
+  index.describe_index_stats()
+  text_field = "text"
+
+  vectorstore = PineconeVectorStore(
+      index, OpenAIEmbeddings().embed_query, text_field
+  )
+
   retriever = MultiVectorRetriever(
     vectorstore=vectorstore,
     docstore=store,
@@ -203,4 +227,4 @@ def main():
   # chain.invoke("Explain images / figures with playful and creative examples.")
 
 if __name__ == "__main__":
-  main()
+  main('What was the reported revenue?')
