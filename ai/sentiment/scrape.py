@@ -3,7 +3,8 @@ import praw
 from nltk.sentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 import praw
-
+import nltk
+nltk.download('vader_lexicon')
 # reddit credentials
 reddit = praw.Reddit(
     client_id='r2CWL-NH4e0nEe9sf6Czbw',
@@ -13,7 +14,7 @@ reddit = praw.Reddit(
 
 # news api credentials
 newsapi_key = 'eab52d8b241d40eaba0b3fc166139863'
-company_name = 'Apple'
+company_name = 'NVIDIA'
 
 # fetch subreddit sentiment
 def fetch_reddit_sentiment(reddit, company_name):
@@ -75,13 +76,13 @@ def plot_sentiment_scores(scores, title, file_name):
     plt.xlabel('Sentiment Score (-5 to 5)')
     plt.ylabel('Number of Posts/Articles')
     plt.grid(axis='y', alpha=0.75)
-    plt.savefig(f"ai/sentiment/viz/{file_name}")
+    plt.savefig(f"sentiment/viz/{file_name}")
     plt.close()  
 
 # individual histograms
-plot_sentiment_scores(news_scores_filtered, 'Apple News Articles', 'news_sentiment_distribution.png')
-plot_sentiment_scores(reddit_scores_filtered, 'Apple Reddit Posts', 'reddit_sentiment_distribution.png')
+plot_sentiment_scores(news_scores_filtered, 'NVIDIA News Articles', 'NVDA_news_sentiment_distribution.png')
+plot_sentiment_scores(reddit_scores_filtered, 'NVIDIA Reddit Posts', 'NVDA_reddit_sentiment_distribution.png')
 
 # combined histogram
 combined_scores = news_scores_filtered + reddit_scores_filtered
-plot_sentiment_scores(combined_scores, 'Apple News and Reddit Combined', 'combined_sentiment_distribution.png')
+plot_sentiment_scores(combined_scores, 'NVIDIA News and Reddit Combined', 'NVDA_combined_sentiment_distribution.png')
