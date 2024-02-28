@@ -41,7 +41,7 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-os.environ["OPENAI_API_KEY"] = 'sk-1UkeCKrH8iIfB2KMLMDMT3BlbkFJgu4NOqjEAoLbmHfM6fansk-yICehkcezjZoDBbJkGZPT3BlbkFJk627exYuH9XjgTLjHE3h'
+os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
@@ -49,7 +49,7 @@ pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
 def format_docs(docs):
   return "\n\n".join(doc.page_content for doc in docs)
 
-def get_existing_retriever():
+def get_existing_retriever(namespace):
   if not firebase_admin._apps:
     credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
     current_directory = os.getcwd()
@@ -79,12 +79,14 @@ def get_existing_retriever():
   pc = Pinecone(api_key=pinecone_api_key)
   index_name = 'cs224g-documents'
   index = pc.Index(index_name)
-  index.describe_index_stats()
+  print(index.describe_index_stats())
   text_field = "text"
 
   vectorstore = PineconeVectorStore(
-      index, OpenAIEmbeddings().embed_query, text_field
+      index, OpenAIEmbeddings().embed_query, text_field, namespace=namespace
   )
+
+  print('this the vectorstore:', vectorstore)
 
   retriever = MultiVectorRetriever(
     vectorstore=vectorstore,
@@ -222,8 +224,8 @@ def add_to_chat_history(query, answer):
   #     'answer': answer
   #   })
 
-def main(query):
-  retriever = get_existing_retriever()
+def main(query, companySymbol):
+  retriever = get_existing_retriever(namespace=companySymbol)
   chat_history = get_chat_history()
   
   chain = run_RAG(retriever)
@@ -242,4 +244,4 @@ def main(query):
   # chain.invoke("Explain images / figures with playful and creative examples.")
 
 if __name__ == "__main__":
-  main('What was the reported revenue?')
+  main('What was their revenue for the iPhone?', 'AAPL')

@@ -192,7 +192,7 @@ def get_retriever():
         )
     return retriever
 
-def add_data_to_retriever(text_summaries, table_summaries, texts, tables):
+def add_data_to_retriever(text_summaries, table_summaries, texts, tables, companySymbol):
     # cred = credentials.Certificate('cs224g-firebase-adminsdk-p4elq-cf48ba0235.json')
     # app = firebase_admin.initialize_app(cred)
     db = firestore.client()
@@ -204,7 +204,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables):
     summary_texts = [
         Document(page_content=s, metadata={id_key: doc_ids[i]}) for i, s in enumerate(text_summaries)
     ]
-    retriever.vectorstore.add_documents(summary_texts)
+    retriever.vectorstore.add_documents(summary_texts, namespace=companySymbol)
     zipped_text = list(zip(doc_ids, texts))
     retriever.docstore.mset(zipped_text)
     for id, text in zipped_text:
@@ -219,7 +219,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables):
     summary_tables = [
         Document(page_content=s, metadata={id_key: table_ids[i]}) for i, s in enumerate(table_summaries)
     ]
-    retriever.vectorstore.add_documents(summary_tables)
+    retriever.vectorstore.add_documents(summary_tables, namespace=companySymbol)
     zipped_tables = list(zip(table_ids, tables))
     retriever.docstore.mset(zipped_tables)
     for id, table in zipped_tables:
@@ -230,7 +230,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables):
         })
 
 
-def modify_retriever(firebase_path):
+def modify_retriever(firebase_path, companySymbol):
     if not firebase_admin._apps:
         credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
         current_directory = os.getcwd()
@@ -254,7 +254,7 @@ def modify_retriever(firebase_path):
     unique_categories, category_counts = create_categories_dict(raw_pdf_elements)
     text_elements, table_elements = categorize_table_texts(raw_pdf_elements)
     text_summaries, table_summaries, texts, tables = generate_table_text_summaries(text_elements, table_elements)
-    add_data_to_retriever(text_summaries,table_summaries, texts, tables)
+    add_data_to_retriever(text_summaries,table_summaries, texts, tables, companySymbol)
 
 """
 For option 2:
@@ -298,13 +298,13 @@ GPT4-V is expected soon, and as mentioned above, CLIP support is likely to be ad
 PART 5: RUN PIPELINE AND SANITY CHECK RETRIEVAL
 """    
 
-def main():
-    path = "apple 10q.pdf"
-    modify_retriever(path)
-    response = retriever.get_relevant_documents(
-        "What are the current liabilities in the last quarter?"
-    )[1]
-    print(response)
+def main(companySymbol):
+    path = "companies/AAPL/manually_uploaded/apple 10k.pdf"
+    modify_retriever(path, companySymbol)
+    # response = retriever.get_relevant_documents(
+    #     "What are the current liabilities in the last quarter?"
+    # )[1]
+    # print(response)
 
     # # test image summary retrieval
     # retriever.get_relevant_documents("Images / figures with playful and creative examples")[1]
@@ -315,5 +315,5 @@ def main():
     # retriever = add_vector_storage(text_summaries,table_summaries, texts, tables)
 
 if __name__ == "__main__":
-    main()    
+    main('AAPL')
 
