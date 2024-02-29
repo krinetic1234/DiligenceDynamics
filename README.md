@@ -41,7 +41,7 @@ The web app will be accessible at https://localhost:3000.
 - **Jakob Nordhagen**: For this sprint, I primarily worked on authentication, frontend, and database setup. I connected and configured Firebase with our web application for user authentication, implemented a login page with two components (LoginForm and SignupForm) and connected them to the authentication pipeline, and added Firebase's emulator suite to our project and used it to test authentication. Next sprint, I plan to focus on completing user profile functionality, working on a per-company (LLM-generated) summary view, and ironing out/tuning the UI on the frontend.
 
 # Sprint 3
-
+- **Collin Jung**: For this sprint, I helped out with the UI design and layout for the company search page and designed a prompt for the investment report copilot feature. For the UI design, I formalized the new accordion format that Justin made to show for both the search button and autofill. I also worked on the document upload tab to connect the investment report copilot to the chat feature. For the prompt, I used concepts of prompt engineering learned in class to try to get it as precise and "tuned" as possible for the tasks.
 - Fully integrate RAG model
 - Clean up UI and complete user profile authentication
 - Add sentiment analysis feature
