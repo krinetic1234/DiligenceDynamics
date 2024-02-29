@@ -25,7 +25,7 @@ const ChatInterface = ({ companySymbol }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ query: customPrompt + input, companySymbol: companySymbol }),
+          body: JSON.stringify({ query: input, companySymbol: companySymbol }), // customPrompt + 
         });
         const message = await response.json();
         setMessages((prevMessages) => [

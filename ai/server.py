@@ -39,7 +39,7 @@ def upload_document():
             storage_path = f'companies/{company_symbol}/manually_uploaded/{uploaded_file.filename}'
             db_utils.upload_to_firebase(storage_path, uploaded_file.filename)
 
-            # os.remove(uploaded_file.filename)
+            os.remove(uploaded_file.filename)
 
             return 'File uploaded successfully!', 200
         else:
