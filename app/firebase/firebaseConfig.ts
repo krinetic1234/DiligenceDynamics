@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Setup emulator for development/testing
-if (window.location.hostname === "localhost") {
+if (window && window.location.hostname === "localhost") {
     const auth = getAuth();
     connectAuthEmulator(auth, "http://localhost:9090");
   }
