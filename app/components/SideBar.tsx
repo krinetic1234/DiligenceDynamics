@@ -9,7 +9,7 @@ import {
   FaQuestion,
   FaUser,
 } from "react-icons/fa"; // Example using Font Awesome icons
-
+import { useAuth } from '../contexts/AuthContext';
 import "bootstrap/dist/css/bootstrap.css";
 
 const links = [
@@ -25,6 +25,9 @@ const links = [
 ];
 
 const SideBar = () => {
+  const { currentUser, loading } = useAuth();
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.profile}>
@@ -35,7 +38,7 @@ const SideBar = () => {
           height={100}
           className={styles.profileImage}
         />
-        <h3 className={styles.profileName}>Krish Maniar</h3>
+        <h3 className={styles.profileName}>{currentUser ? `${currentUser.displayName || 'User'}` : 'Guest'}</h3>
       </div>
       <div className={styles.navLinks}>
         {links.map((link) => {

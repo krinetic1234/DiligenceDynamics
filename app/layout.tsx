@@ -1,6 +1,7 @@
 'use client'
 
 import SideBar from "./components/SideBar";
+import { AuthProvider } from "./contexts/AuthContext"
 import 'bootstrap/dist/css/bootstrap.css';
 import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <AuthProvider>
         <Container fluid className="page-container">
           <button onClick={toggleSidebar} className="toggle-sidebar-btn">
             {sidebarVisible ? '<' : '>'}
@@ -32,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Col>
           </Row>
         </Container>
+        </AuthProvider>
       </body>
     </html>
     
