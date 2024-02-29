@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from rag_pipeline.run_RAG import main
+from rag_pipeline.process_RAG import process
 import firebase_utils.database_utils as db_utils
 import os
 
@@ -12,23 +13,17 @@ CORS(app)
 def company_chat():
     # get the request data
     query = request.json['query']
+    companySymbol = request.json['companySymbol']
     print('query:', query)
+    print('companySymbol:', companySymbol)
     # run the RAG model
-    response = main(query)['answer']
+    response = main(query, companySymbol)['answer']
     print('response:', response)
     return jsonify({'response': response})
 
 
 @app.route('/api/upload-document', methods=['POST'])
 def upload_document():
-    # # get the request data
-    # query = request.json['query']
-    # print('query:', query)
-    # # run the RAG model
-    # response = main(query)
-    # print('response:', response)
-    # return jsonify({'response': response})
-
     try:
         uploaded_file = request.files['file']
         company_symbol = request.form.get('companySymbol')
@@ -52,6 +47,22 @@ def upload_document():
     except Exception as e:
         print('Error:', str(e))
         return 'Error uploading file', 500
+    
+@app.route('/api/process-document', methods=['POST'])
+def process_document():
+    try:
+        uploaded_file = request.files['file']
+        file_name = uploaded_file.filename
+        company_symbol = request.form.get('companySymbol')
+        storage_path = f'companies/{company_symbol}/manually_uploaded/{file_name}'
+        
+        process(storage_path, company_symbol)
+
+        return 'File processed successfully!', 200
+
+    except Exception as e:
+        print('Error:', str(e))
+        return 'Error processing file', 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

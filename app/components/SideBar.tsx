@@ -15,7 +15,7 @@ import "bootstrap/dist/css/bootstrap.css";
 const links = [
   { name: "Home", href: "/", icon: <FaHome /> },
   {
-    name: "Investment Report Copilot",
+    name: "Documents",
     href: "/document",
     icon: <FaTachometerAlt />,
   },
