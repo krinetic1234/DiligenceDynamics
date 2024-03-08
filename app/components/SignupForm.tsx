@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useRouter } from 'next/navigation'
 
 const SignupForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -14,6 +15,7 @@ const SignupForm = () => {
   const [formError, setFormError] = useState(''); // Form validation errors
 
   const auth = getAuth();
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,7 +33,8 @@ const SignupForm = () => {
         displayName: `${firstName} ${lastName}`,
       });
       console.log("User created successfully");
-      // Redirect or clear form here
+      router.push('/');
+      window.location.reload();
     } catch (error) {
       console.error("Error signing up:", error.message);
       setError(error.message);
