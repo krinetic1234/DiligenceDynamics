@@ -2,9 +2,12 @@
 
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useRouter } from 'next/navigation'
 
 const SignupForm = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -12,6 +15,7 @@ const SignupForm = () => {
   const [formError, setFormError] = useState(''); // Form validation errors
 
   const auth = getAuth();
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,9 +28,13 @@ const SignupForm = () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, {
+        displayName: `${firstName} ${lastName}`,
+      });
       console.log("User created successfully");
-      // Redirect or clear form here
+      router.push('/');
+      window.location.reload();
     } catch (error) {
       console.error("Error signing up:", error.message);
       setError(error.message);
@@ -38,6 +46,29 @@ const SignupForm = () => {
       <h2>Sign Up</h2>
       {error && <Form.Text style={{ color: 'red' }}>{error}</Form.Text>}
       {formError && <Form.Text style={{ color: 'red' }}>{formError}</Form.Text>}
+
+      <Form.Group controlId="formBasicFirstName" className="mb-3">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formBasicLastName" className="mb-3">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+      </Form.Group>
+
       <Form.Group controlId="formBasicEmail" className="mb-3">
         <Form.Label>Email address</Form.Label>
         <Form.Control

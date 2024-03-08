@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -10,14 +11,15 @@ const LoginForm: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   const auth = getAuth();
+  const router = useRouter();
 
   const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
+    event.preventDefault(); 
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('Logged in successfully');
-      // Handle successful login
+      router.push('/');
+      window.location.reload();
     } catch (error: any) {
       setError(error.message);
       console.error('Failed to log in:', error.message);
