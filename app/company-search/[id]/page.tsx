@@ -50,7 +50,7 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
     } catch (error) {
       console.error("Error fetching company data:", error);
       setCompanyData(null);
-			setErrorFetching(error);
+	  setErrorFetching(error);
     }
   };
 
@@ -160,7 +160,7 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
 				<Accordion.Item eventKey="1">
 					<Accordion.Header>Chat about this company</Accordion.Header>
 					<Accordion.Body>
-						{companyData ? <ChatInterface /> : null}
+						{companyData ? <ChatInterface companySymbol={params.id}/> : null}
 					</Accordion.Body>
 				</Accordion.Item>
 			</Accordion>

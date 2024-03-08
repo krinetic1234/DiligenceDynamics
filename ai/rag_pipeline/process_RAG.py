@@ -208,7 +208,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables, compan
     zipped_text = list(zip(doc_ids, texts))
     retriever.docstore.mset(zipped_text)
     for id, text in zipped_text:
-        doc_ref = db.collection('parsed-documents').document(id)
+        doc_ref = db.collection(companySymbol).document(id)
         doc_ref.set({
             'id':id,
             'text':text
@@ -223,7 +223,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables, compan
     zipped_tables = list(zip(table_ids, tables))
     retriever.docstore.mset(zipped_tables)
     for id, table in zipped_tables:
-        doc_ref = db.collection('parsed-documents').document(id)
+        doc_ref = db.collection(companySymbol).document(id)
         doc_ref.set({
             'id':id,
             'table':table
@@ -298,8 +298,7 @@ GPT4-V is expected soon, and as mentioned above, CLIP support is likely to be ad
 PART 5: RUN PIPELINE AND SANITY CHECK RETRIEVAL
 """    
 
-def main(companySymbol):
-    path = "companies/AAPL/manually_uploaded/apple 10k.pdf"
+def process(path, companySymbol):
     modify_retriever(path, companySymbol)
     # response = retriever.get_relevant_documents(
     #     "What are the current liabilities in the last quarter?"
@@ -314,6 +313,10 @@ def main(companySymbol):
     # text_summaries, table_summaries, texts, tables = generate_table_text_summaries(text_elements, table_elements)
     # retriever = add_vector_storage(text_summaries,table_summaries, texts, tables)
 
+def main(path, companySymbol):
+    process(path, companySymbol)
+
 if __name__ == "__main__":
-    main('AAPL')
+    path = "companies/AAPL/manually_uploaded/apple 10k.pdf"
+    main(path, 'AAPL')
 

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import styles from "../styles/ChatInterface.module.css";
 
-const ChatInterface = () => {
+const ChatInterface = ({ companySymbol }) => {
   const [messages, setMessages] = useState([
     { text: "Hello! How can I help you today?", sender: "bot" },
   ]);
@@ -25,7 +25,7 @@ const ChatInterface = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ query: customPrompt + input }),
+          body: JSON.stringify({ query: input, companySymbol: companySymbol }), // customPrompt + 
         });
         const message = await response.json();
         setMessages((prevMessages) => [

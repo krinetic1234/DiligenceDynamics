@@ -139,7 +139,7 @@ export default function Page() {
             tableData={tableData}
             customColumns={customColumns}
           />
-          <ChatInterface></ChatInterface>
+          <ChatInterface companySymbol={companySymbol} ></ChatInterface>
         </Col>
       </Row>
     </Container>

@@ -40,6 +40,8 @@ from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from datetime import datetime
+
 
 os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -63,7 +65,8 @@ def get_existing_retriever(namespace):
     firebase_admin.initialize_app(cred)
   db = firestore.client()
 
-  parsed_doc_ref = db.collection('parsed-documents')
+  # parsed_doc_ref = db.collection('parsed-documents')
+  parsed_doc_ref = db.collection(namespace)
   docs = parsed_doc_ref.stream()
 
   documents_for_docstore = []
@@ -106,7 +109,7 @@ def print_intermediate(data):
 # Original prompt template
 def run_RAG(retriever):
   # NEW PROMPT TEMPLATE
-  template = """Answer the questions in a concise manner based on the following context, which can include text and tables:
+  template = """Answer the questions in a concise manner based on the following context and your general knowledge, which can include text and tables:
   {context}
   Question: {question}
   """
@@ -171,7 +174,7 @@ def process_results(chain, contextualize_query):
   # output has keys: "question", "answer", and "context", which you can print out
   return output
 
-def get_chat_history():
+def get_chat_history(companySymbol):
   chat_history = []
   if not firebase_admin._apps:
     # path for running from api
@@ -189,15 +192,21 @@ def get_chat_history():
   chat_db = firestore.client()
   chat_history_ref = chat_db.collection('chat-history')
   chats = chat_history_ref.stream()
+  chats = [chat for chat in chats if chat.to_dict().get('company') == companySymbol]
+  chats.sort(key=lambda x: x.to_dict().get('time'))
+
   for chat in chats:
     question = HumanMessage(content=chat.to_dict().get('question'))
     answer = AIMessage(content=chat.to_dict().get('answer'))
     print(question)
     print(answer)
     chat_history.extend([question, answer])
+
+  print('chat_history:', chat_history)
+  
   return chat_history
   
-def add_to_chat_history(query, answer):
+def add_to_chat_history(query, answer, companySymbol):
   if not firebase_admin._apps:
     credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
     current_directory = os.getcwd()
@@ -214,7 +223,9 @@ def add_to_chat_history(query, answer):
   chat_ref = chat_db.collection('chat-history').document(query)
   chat_ref.set({
     'question': query,
-    'answer': answer
+    'answer': answer,
+    'company': companySymbol,
+    'time': datetime.timestamp(datetime.now())
   })
 
   # for query, answer in zipped_chat:
@@ -226,13 +237,13 @@ def add_to_chat_history(query, answer):
 
 def main(query, companySymbol):
   retriever = get_existing_retriever(namespace=companySymbol)
-  chat_history = get_chat_history()
+  chat_history = get_chat_history(companySymbol)
   
   chain = run_RAG(retriever)
   final_query = contextualize_question(chat_history, query)
   
   output = process_results(chain, final_query)
-  add_to_chat_history(query, output['answer'])
+  add_to_chat_history(query, output['answer'], companySymbol)
   
   print("this is the reframed question: ", output['question'], '\n')
   print("this is the answer: ", output['answer'], '\n')
@@ -244,4 +255,4 @@ def main(query, companySymbol):
   # chain.invoke("Explain images / figures with playful and creative examples.")
 
 if __name__ == "__main__":
-  main('What was their revenue for the iPhone?', 'AAPL')
+  main('What are the key risks to this business?', 'CHWY')
