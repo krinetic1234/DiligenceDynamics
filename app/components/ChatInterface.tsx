@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import styles from "../styles/ChatInterface.module.css";
 
-const ChatInterface = ({ companySymbol }) => {
+const ChatInterface = ({ companySymbol, mode }) => {
   const [messages, setMessages] = useState([
     { text: "Hello! How can I help you today?", sender: "bot" },
   ]);
@@ -13,8 +13,6 @@ const ChatInterface = ({ companySymbol }) => {
     e.preventDefault();
     if (input.trim() !== "") {
       try {
-        let customPrompt =
-          "You are a chatbot powered by a Retriever-Augmented Generation model, designed to assist the user in creating investment reports and answering queries about companies based on user-provided PDF documents. Your capabilities include extracting and analyzing information from financial documents, answering specific questions about a company's performance, and generating comprehensive investment reports. You offer insights and data-driven recommendations, emphasizing that users should consider these as part of their broader research.";
         setMessages((prevMessages) => [
           ...prevMessages,
           { text: input, sender: "user" },
@@ -25,7 +23,11 @@ const ChatInterface = ({ companySymbol }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ query: input, companySymbol: companySymbol }), // customPrompt + 
+          body: JSON.stringify({
+            query: input,
+            companySymbol: companySymbol,
+            mode: mode,
+          }), // customPrompt +
         });
         const message = await response.json();
         setMessages((prevMessages) => [
