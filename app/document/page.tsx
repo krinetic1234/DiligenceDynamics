@@ -18,6 +18,7 @@ export default function Page() {
     { header: "manual", name: "Manually Uploaded" },
     { header: "downloadURL", name: "Download" },
   ];
+  const mode = "document";
   const [companySymbol, setCompanySymbol] = useState("");
   const [tableData, setTableData] = useState([]);
 
@@ -139,7 +140,10 @@ export default function Page() {
             tableData={tableData}
             customColumns={customColumns}
           />
-          <ChatInterface companySymbol={companySymbol} ></ChatInterface>
+          <ChatInterface
+            companySymbol={companySymbol}
+            mode={mode}
+          ></ChatInterface>
         </Col>
       </Row>
     </Container>

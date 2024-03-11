@@ -14,10 +14,12 @@ def company_chat():
     # get the request data
     query = request.json['query']
     companySymbol = request.json['companySymbol']
+    mode = request.json['mode']
     print('query:', query)
     print('companySymbol:', companySymbol)
+    print('mode:', mode)
     # run the RAG model
-    response = main(query, companySymbol)['answer']
+    response = main(query, companySymbol, mode)['answer']
     print('response:', response)
     return jsonify({'response': response})
 

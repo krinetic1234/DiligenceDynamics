@@ -107,12 +107,18 @@ def print_intermediate(data):
 # model = GPT4-V or LLaVA
 # RAG pipeline: added streaming for sources
 # Original prompt template
-def run_RAG(retriever):
+def run_RAG(retriever, mode):
   # NEW PROMPT TEMPLATE
-  template = """Answer the questions in a concise manner based on the following context and your general knowledge, which can include text and tables:
+  if mode == "chat":
+    template = """Answer the questions in a concise manner based on the following context and your general knowledge, which can include text and tables:
+    {context}
+    Question: {question}
+    """
+  else: template = """You are a chatbot powered by a Retriever-Augmented Generation model, designed to assist the user in creating investment reports and answering queries about companies based on user-provided PDF documents. Your capabilities include extracting and analyzing information from financial documents, answering specific questions about a company's performance, and generating comprehensive investment reports. You offer insights and data-driven recommendations, emphasizing that users should consider these as part of their broader research.
   {context}
   Question: {question}
   """
+  
   inference_prompt = ChatPromptTemplate.from_template(template)
 
   model = ChatOpenAI(temperature=0, model="gpt-4-0125-preview")  # gpt-4-0125-preview
@@ -235,11 +241,11 @@ def add_to_chat_history(query, answer, companySymbol):
   #     'answer': answer
   #   })
 
-def main(query, companySymbol):
+def main(query, companySymbol, mode):
   retriever = get_existing_retriever(namespace=companySymbol)
   chat_history = get_chat_history(companySymbol)
   
-  chain = run_RAG(retriever)
+  chain = run_RAG(retriever, mode)
   final_query = contextualize_question(chat_history, query)
   
   output = process_results(chain, final_query)
