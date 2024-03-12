@@ -1,54 +1,59 @@
 .chatContainer {
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .messagesContainer {
-    flex-grow: 1;
-    padding: 10px;
-    overflow-y: auto;
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
 }
 
 .messageBot {
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: #f0f0f0;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
 }
 
 .messageUser {
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    align-self: flex-end;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: #d8c3a5;
+  color: white;
+  align-self: flex-end;
 }
 
 .inputContainer {
-    display: flex;
+  display: flex;
 }
 
 .inputField {
-    flex-grow: 1;
-    padding: 10px;
-    border: none;
-    border-top: 1px solid #ccc;
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  border-top: 1px solid #ccc;
 }
 
 .sendButton {
-    padding: 10px 20px;
-    border: none;
-    border-top: 1px solid #ccc;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-top: 1px solid #ccc;
+  background-color: #e98074; /* Transparent background */
+  transition: background-color 0.2s, color 0.2s; /* Smooth transition */
+  color: white;
+  cursor: pointer;
 }
 
 .sendButton:hover {
-    background-color: #0056b3;
+  background-color: #e66a5c;
+}
+
+.sendButton:active {
+  box-shadow: 0 0 0 0.25rem rgba(233, 128, 116, 0.5); /* Shadow for an active state */
 }
