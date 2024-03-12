@@ -28,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <AuthProvider>
         <Container fluid className="page-container">
           <button
             onClick={toggleSidebar}
@@ -45,6 +46,7 @@ export default function RootLayout({
             <Col xs={sidebarVisible ? 9 : 12}>{children}</Col>
           </Row>
         </Container>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -13,6 +13,7 @@ You also need to install some brew packages by doing the following:
 - `brew update`
 - `brew install poppler tesseract`
 - `brew install cmake`
+
 Now, run `python3 server.py` to start the Flask server that will handle all requests related to AI/LLMs. It takes about a minute for the server to start up the first time but then it will hot reload when files change.
 
 You also need to add your secret keys to the `AI-server/rag_pipeline/process_RAG.py` and `AI-server/rag_pipeline/run_RAG.py` files
@@ -22,6 +23,7 @@ NOTE: If you're working with authentication (login/signup), install Firebase's C
 - `firebase emulators:start`  
 
 The web app will be accessible at https://localhost:3000.
+To recap, once all packages are installed for both the web app and the backend (like cs224g environment), you need to do 'npm run dev' from the root and 'python server.py' from the ai folder.
 
 
 # Sprint 1
