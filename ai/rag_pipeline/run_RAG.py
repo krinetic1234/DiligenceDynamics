@@ -8,20 +8,13 @@ For `option 2a` (above):
 - This should be possible soon, once [llama-cpp-python add multi-modal support](https://github.com/abetlen/llama-cpp-python/issues/813).
 - And, of course, this will be enabled by GPT4-V API.
 """
-from typing import Any
-from pydantic import BaseModel
-from unstructured.partition.pdf import partition_pdf
-# import uuid
 from langchain.retrievers.multi_vector import MultiVectorRetriever
 from langchain.storage import InMemoryStore
-from langchain_community.vectorstores import Chroma
-from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 import os
-# import backoff
 import openai
 from langchain_core.runnables import RunnablePassthrough
 import firebase_admin
@@ -29,12 +22,6 @@ from firebase_admin import firestore
 from firebase_admin import credentials
 from pinecone import Pinecone
 from langchain.vectorstores import Pinecone as PineconeVectorStore
-import getpass
-import bs4
-from langchain import hub
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import WebBaseLoader
-from langchain_community.vectorstores import Chroma
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -43,7 +30,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from datetime import datetime
 
 
-os.environ["OPENAI_API_KEY"] = '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'
+# os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
@@ -51,18 +38,23 @@ pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
 def format_docs(docs):
   return "\n\n".join(doc.page_content for doc in docs)
 
-def get_existing_retriever(namespace):
+def init_firebase_app():
   if not firebase_admin._apps:
+    # path for running from api
     credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
     current_directory = os.getcwd()
 
     # Specify the string you want to check
     desired_directory_name = "rag_pipeline"
     # Check if the current directory name is the desired string
+    # path for running file directly
     if os.path.basename(current_directory) == desired_directory_name:
       credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
     cred = credentials.Certificate(credential_path)
     firebase_admin.initialize_app(cred)
+
+def get_existing_retriever(namespace):
+  init_firebase_app()
   db = firestore.client()
 
   # parsed_doc_ref = db.collection('parsed-documents')
@@ -78,7 +70,6 @@ def get_existing_retriever(namespace):
     documents_for_docstore.append((doc.id, body))
 
   store = InMemoryStore()
-  # vectorstore = Chroma(collection_name="summaries", embedding_function=OpenAIEmbeddings(), persist_directory='rag_pipeline/persist_db')
   pc = Pinecone(api_key=pinecone_api_key)
   index_name = 'cs224g-documents'
   index = pc.Index(index_name)
@@ -180,85 +171,57 @@ def process_results(chain, contextualize_query):
   # output has keys: "question", "answer", and "context", which you can print out
   return output
 
-def get_chat_history(companySymbol):
+def get_chat_history(companySymbol, userID):
+  init_firebase_app()
   chat_history = []
-  if not firebase_admin._apps:
-    # path for running from api
-    credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
-    current_directory = os.getcwd()
-
-    # Specify the string you want to check
-    desired_directory_name = "rag_pipeline"
-    # Check if the current directory name is the desired string
-    # path for running file directly
-    if os.path.basename(current_directory) == desired_directory_name:
-      credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
-    cred = credentials.Certificate(credential_path)
-    firebase_admin.initialize_app(cred)
   chat_db = firestore.client()
-  chat_history_ref = chat_db.collection('chat-history')
-  chats = chat_history_ref.stream()
-  chats = [chat for chat in chats if chat.to_dict().get('company') == companySymbol]
-  chats.sort(key=lambda x: x.to_dict().get('time'))
+  
+  chat_history_ref = chat_db.collection('users').document(userID) \
+                                .collection('companies').document(companySymbol) \
+                                .collection('chat_history')
+  # Retrieve chat history sorted by time
+  chats = chat_history_ref.order_by('time').stream()
 
   for chat in chats:
-    question = HumanMessage(content=chat.to_dict().get('question'))
-    answer = AIMessage(content=chat.to_dict().get('answer'))
-    print(question)
-    print(answer)
+    chat_data = chat.to_dict()
+    question = HumanMessage(content=chat_data.get('question'))
+    answer = AIMessage(content=chat_data.get('answer'))
     chat_history.extend([question, answer])
 
   print('chat_history:', chat_history)
   
   return chat_history
   
-def add_to_chat_history(query, answer, companySymbol):
-  if not firebase_admin._apps:
-    credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
-    current_directory = os.getcwd()
-
-    # Specify the string you want to check
-    desired_directory_name = "rag_pipeline"
-    # Check if the current directory name is the desired string
-    if os.path.basename(current_directory) == desired_directory_name:
-      credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
-    cred = credentials.Certificate(credential_path)
-    firebase_admin.initialize_app(cred)
+def add_to_chat_history(query, answer, companySymbol, userID):
+  init_firebase_app()
   chat_db = firestore.client()
-  # zipped_chat = list(zip(query, answer))
-  chat_ref = chat_db.collection('chat-history').document(query)
+
+  chat_ref = chat_db.collection('users').document(userID) \
+                        .collection('companies').document(companySymbol) \
+                        .collection('chat_history').document()
+    
+  # Add a new chat document
   chat_ref.set({
     'question': query,
     'answer': answer,
-    'company': companySymbol,
-    'time': datetime.timestamp(datetime.now())
+    'time': datetime.now()  
   })
 
-  # for query, answer in zipped_chat:
-  #   chat_ref = chat_db.collection('chat-history').document(query)
-  #   chat_ref.set({
-  #     'question': query,
-  #     'answer': answer
-  #   })
-
-def main(query, companySymbol, mode):
+def main(query, companySymbol, mode, userID):
   retriever = get_existing_retriever(namespace=companySymbol)
-  chat_history = get_chat_history(companySymbol)
+  chat_history = get_chat_history(companySymbol, userID)
   
   chain = run_RAG(retriever, mode)
   final_query = contextualize_question(chat_history, query)
   
   output = process_results(chain, final_query)
-  add_to_chat_history(query, output['answer'], companySymbol)
+  add_to_chat_history(query, output['answer'], companySymbol, userID)
   
   print("this is the reframed question: ", output['question'], '\n')
   print("this is the answer: ", output['answer'], '\n')
   print("this is the context retrieved", output['context'], '\n')
 
   return output
-  """We can check the [trace](https://smith.langchain.com/public/85a7180e-0dd1-44d9-996f-6cb9c6f53205/r) to see retrieval of tables and text."""
-
-  # chain.invoke("Explain images / figures with playful and creative examples.")
 
 if __name__ == "__main__":
   main('What are the key risks to this business?', 'CHWY')
