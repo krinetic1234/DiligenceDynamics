@@ -1,10 +1,12 @@
 import requests
 import praw
 from nltk.sentiment import SentimentIntensityAnalyzer
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from test_ft import ai_output
+import praw
 import nltk
-from transformers import AutoModelForCausalLM, AutoTokenizer
+# from transformers import AutoModel, AutoTokenizer
 nltk.download('vader_lexicon')
 
 # reddit credentials
@@ -16,12 +18,14 @@ reddit = praw.Reddit(
 
 # news api credentials
 newsapi_key = 'eab52d8b241d40eaba0b3fc166139863'
-company_name = 'NVIDIA'
+# company_name = 'NVIDIA'
 
 # set up mxstral model
 device = "cuda" 
-model = AutoModelForCausalLM.from_pretrained("mistralai/Mixtral-8x7B-v0.1")
-tokenizer = AutoTokenizer.from_pretrained("mistralai/Mixtral-8x7B-v0.1")
+# model = AutoModel.from_pretrained('learnanything/llama-7b-huggingface',
+#                                     load_in_8bit=True,
+#                                     device_map='auto')
+# tokenizer = AutoTokenizer.from_pretrained('learnanything/llama-7b-huggingface')
 
 # AI models 
 # krish_model_ft = "Krish/Mixtral-8x7B-v0.1-dildyn-ft-2024-02-25-02-09-30"
@@ -68,27 +72,22 @@ def fetch_news_sentiment(company_name, api_key=newsapi_key):
             sentiment_scores.append(None)  # no score
         titles.append(title)
     
-    return titles, sentiment_score
+    return titles, sentiment_scores
 
-def fetch_ai_response(titles, scores):
-    prompt = "You are a financial analyst that needs to describe the general distribution of sentiment of a specific company based on its individual articles. Here are the latest titles and their sentiment scores:\n"
-    for title, score in zip(titles, scores):
-        prompt += f"Title: {title}, Sentiment Score: {score}\n"
+# def fetch_ai_response(titles, scores):
+#     prompt = "You are a financial analyst that needs to describe the general distribution of sentiment of a specific company based on its individual articles. Here are the latest titles and their sentiment scores:\n"
+#     for title, score in zip(titles, scores):
+#         prompt += f"Title: {title}, Sentiment Score: {score}\n"
 
-    model_inputs = tokenizer([prompt], return_tensors="pt").to(device)
-    model.to(device)
-    generated_ids = model.generate(**model_inputs, max_new_tokens=100, do_sample=True)
-    return tokenizer.batch_decode(generated_ids)[0]
+#     model_inputs = tokenizer([prompt], return_tensors="pt").to(device)
+#     model.to(device)
+#     generated_ids = model.generate(**model_inputs, max_new_tokens=100, do_sample=True)
+#     return tokenizer.batch_decode(generated_ids)[0]
 
 # getting scores and filtering them
-news_tt, news_scores = fetch_news_sentiment(newsapi_key, company_name)
-news_scores_filtered = list(filter(lambda x: x is not None, news_scores))
-
-reddit_tt, reddit_scores = fetch_reddit_sentiment(reddit, company_name)
-reddit_scores_filtered = list(filter(lambda x: x is not None, reddit_scores))
 
 # plotting function
-def plot_sentiment_scores(scores, file_name):
+def plot_sentiment_scores(scores, file_name, company_name):
     plt.figure(figsize=(10, 6))
     path = f"/Users/krish/Desktop/CS/Projects/DiligenceDynamics/app/static/{file_name}"
     plt.hist(scores, bins=20, color='skyblue')
@@ -97,20 +96,25 @@ def plot_sentiment_scores(scores, file_name):
     plt.ylabel('Number of Posts/Articles')
     plt.grid(axis='y', alpha=0.75)
     plt.savefig(path)
+    plt.close()
     return path
 
 # api function calls
 def news_results(company_name):
-    file_name = f"{company_name} news"
-    path = plot_sentiment_scores(news_scores_filtered, file_name)
-    news_ai = fetch_ai_response(news_tt, news_scores_filtered)
-    return path, news_ai
+    news_tt, news_scores = fetch_news_sentiment(company_name, newsapi_key)
+    news_scores_filtered = list(filter(lambda x: x is not None, news_scores))
+    file_name = f"{company_name}_news"
+    path = plot_sentiment_scores(news_scores_filtered, file_name, company_name)
+    # news_ai = fetch_ai_response(news_tt, news_scores_filtered)
+    return path, news_tt
 
 def reddit_results(company_name):
-    file_name = f"{company_name} reddit"
-    path = plot_sentiment_scores(reddit_scores_filtered, file_name)
-    reddit_ai = fetch_ai_response(reddit_tt, reddit_scores_filtered)
-    return path, reddit_ai
+    reddit_tt, reddit_scores = fetch_reddit_sentiment(company_name, reddit)
+    reddit_scores_filtered = list(filter(lambda x: x is not None, reddit_scores))
+    file_name = f"{company_name}_reddit"
+    path = plot_sentiment_scores(reddit_scores_filtered, file_name, company_name)
+    # reddit_ai = fetch_ai_response(reddit_tt, reddit_scores_filtered)
+    return path, reddit_tt
 
 # # individual histograms
 # plot_sentiment_scores(news_scores_filtered, 'Apple News Articles', 'Apple_news_sentiment_distribution.png')

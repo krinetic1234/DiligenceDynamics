@@ -69,16 +69,15 @@ def process_document():
 
 @app.route('/api/sentiment/news/<company_name>')
 def get_news_sentiment(company_name):
-    print('hey there')
-    fig_path, ai_response = news_results(company_name)
+    fig_path, titles = news_results(company_name)
     fig_url = url_for('static', filename=fig_path)  
-    return jsonify({'fig_url': fig_url, 'ai_response': ai_response})
+    return jsonify({'fig_url': fig_url, 'titles': titles})
 
 @app.route('/api/sentiment/reddit/<company_name>')
 def get_reddit_sentiment(company_name):
-    fig_path, ai_response = reddit_results(company_name)
+    fig_path, titles = reddit_results(company_name)
     fig_url = url_for('static', filename=fig_path) 
-    return jsonify({'fig_url': fig_url, 'ai_response': ai_response})
+    return jsonify({'fig_url': fig_url, 'titles': titles})
     
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
