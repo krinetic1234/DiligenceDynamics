@@ -5,6 +5,7 @@ from rag_pipeline.process_RAG import process
 import firebase_utils.database_utils as db_utils
 import os
 from sentiment.scrape import news_results, reddit_results
+from excel_nlp.parse_spacy import fetch_graph
 
 # app instance
 app = Flask(__name__)
@@ -85,6 +86,12 @@ def get_reddit_sentiment(company_name):
     # return jsonify({'fig_url': fig_url, 'titles': titles})
     fig_url = '/' + company_name + '_reddit.png'
     return jsonify({'fig_url': fig_url, 'titles': titles})
+
+@app.route('/api/nlp/<prompt>')
+def get_xlsx(prompt):
+    xlsx_path = fetch_graph(prompt)
+    fig_url = url_for('static', filename=xlsx_path) 
+    return jsonify({'fig_url': fig_url})
     
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
