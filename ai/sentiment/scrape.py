@@ -89,7 +89,7 @@ def fetch_news_sentiment(company_name, api_key=newsapi_key):
 # plotting function
 def plot_sentiment_scores(scores, file_name, company_name):
     plt.figure(figsize=(10, 6))
-    path = f"/Users/krish/Desktop/CS/Projects/DiligenceDynamics/app/static/{file_name}"
+    path = f"/Users/justin/Documents/Justin/Stanford/Coterm/CS224G/DiligenceDynamics/public/{file_name}"
     plt.hist(scores, bins=20, color='skyblue')
     plt.title(f'Distribution of Sentiment Scores for {company_name}')
     plt.xlabel('Sentiment Score (-5 to 5)')
@@ -104,6 +104,7 @@ def news_results(company_name):
     news_tt, news_scores = fetch_news_sentiment(company_name, newsapi_key)
     news_scores_filtered = list(filter(lambda x: x is not None, news_scores))
     file_name = f"{company_name}_news"
+    print('plotting ')
     path = plot_sentiment_scores(news_scores_filtered, file_name, company_name)
     # news_ai = fetch_ai_response(news_tt, news_scores_filtered)
     return path, news_tt

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for
 from flask_cors import CORS
 from rag_pipeline.run_RAG import main
 from rag_pipeline.process_RAG import process
@@ -71,12 +71,17 @@ def process_document():
 def get_news_sentiment(company_name):
     fig_path, titles = news_results(company_name)
     fig_url = url_for('static', filename=fig_path)  
+    # return jsonify({'fig_url': fig_url, 'titles': titles})
+
+    fig_url = '/' + company_name + '_news.png'
     return jsonify({'fig_url': fig_url, 'titles': titles})
 
 @app.route('/api/sentiment/reddit/<company_name>')
 def get_reddit_sentiment(company_name):
     fig_path, titles = reddit_results(company_name)
     fig_url = url_for('static', filename=fig_path) 
+    # return jsonify({'fig_url': fig_url, 'titles': titles})
+    fig_url = '/' + company_name + '_reddit.png'
     return jsonify({'fig_url': fig_url, 'titles': titles})
     
 if __name__ == '__main__':
