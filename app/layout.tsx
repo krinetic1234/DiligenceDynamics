@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import menuPic from "./images/menu.png";
 import Image from "next/image";
+import { AuthProvider } from "./contexts/AuthContext"
 
 import "./styles/globals.css";
 
