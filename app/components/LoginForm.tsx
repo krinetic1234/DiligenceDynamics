@@ -18,8 +18,8 @@ const LoginForm: React.FC = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/');
       window.location.reload();
+      router.push('/');
     } catch (error: any) {
       setError(error.message);
       console.error('Failed to log in:', error.message);
