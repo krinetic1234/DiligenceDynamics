@@ -19,10 +19,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Setup emulator for development/testing
-if (typeof window !== "undefined" && window.location.hostname === "localhost") {
-    const auth = getAuth();
-    connectAuthEmulator(auth, "http://localhost:9090");
-  }
+// if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+//     const auth = getAuth();
+//     connectAuthEmulator(auth, "http://localhost:9090");
+//   }
 
 // Try to add analytics
 const analytics = app.name && typeof window !== "undefined" ? getAnalytics(app) : null;

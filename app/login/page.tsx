@@ -1,13 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
+import { useRouter } from 'next/navigation';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import '../styles/globals.css';
 
 const Page: React.FC = () => {
   const [showSignup, setShowSignup] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const router = useRouter();
+  const auth = getAuth();
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        setIsLoggedIn(true);
+        router.push('/'); // Redirect to home page if already logged in
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription
+  }, [auth, router]);
+
+  if (isLoggedIn) {
+    return <p>User is alread logged in.</p>; 
+  }
 
   // Toggle the form display
   const toggleForm = () => setShowSignup(!showSignup);
