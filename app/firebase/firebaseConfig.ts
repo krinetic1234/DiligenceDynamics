@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAn13sG1qawLV4Pb9qo4CVCU5R_4iSqNhM",
@@ -10,6 +11,7 @@ const firebaseConfig = {
     storageBucket: "cs224g.appspot.com",
     messagingSenderId: "768358548344",
     appId: "1:768358548344:web:dbfcc50d05fa17cd75fe8d",
+    // databaseURL: "https://name.firebasedatabase.app",
     // measurementId: "G-SM5DD3Q62C"
   };
 
@@ -30,3 +32,6 @@ export const auth = getAuth(app);
 
 // Initialize Firebase Storage and export
 export const storage = getStorage(app);
+
+// initialize Firebase Database and export
+export const firestore = getFirestore(app);
