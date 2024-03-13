@@ -195,17 +195,31 @@ def get_chat_history(companySymbol, userID):
       credential_path = 'cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
     cred = credentials.Certificate(credential_path)
     firebase_admin.initialize_app(cred)
+
   chat_db = firestore.client()
-  chat_history_ref = chat_db.collection('chat-history')
-  chats = chat_history_ref.stream()
-  chats = [chat for chat in chats if chat.to_dict().get('company') == companySymbol]
-  chats.sort(key=lambda x: x.to_dict().get('time'))
+
+  # chat_history_ref = chat_db.collection('chat-history')
+  # chats = chat_history_ref.stream()
+  # chats = [chat for chat in chats if chat.to_dict().get('company') == companySymbol]
+  # chats.sort(key=lambda x: x.to_dict().get('time'))
+
+  # for chat in chats:
+  #   question = HumanMessage(content=chat.to_dict().get('question'))
+  #   answer = AIMessage(content=chat.to_dict().get('answer'))
+  #   print(question)
+  #   print(answer)
+  #   chat_history.extend([question, answer])
+  
+  chat_history_ref = chat_db.collection('users').document(userID) \
+                                .collection('companies').document(companySymbol) \
+                                .collection('chat_history')
+  # Retrieve chat history sorted by time
+  chats = chat_history_ref.order_by('time').stream()
 
   for chat in chats:
-    question = HumanMessage(content=chat.to_dict().get('question'))
-    answer = AIMessage(content=chat.to_dict().get('answer'))
-    print(question)
-    print(answer)
+    chat_data = chat.to_dict()
+    question = HumanMessage(content=chat_data.get('question'))
+    answer = AIMessage(content=chat_data.get('answer'))
     chat_history.extend([question, answer])
 
   print('chat_history:', chat_history)
@@ -226,20 +240,25 @@ def add_to_chat_history(query, answer, companySymbol, userID):
     firebase_admin.initialize_app(cred)
   chat_db = firestore.client()
   # zipped_chat = list(zip(query, answer))
-  chat_ref = chat_db.collection('chat-history').document(query)
+  # chat_ref = chat_db.collection('chat-history').document(query)
+  # chat_ref.set({
+  #   'question': query,
+  #   'answer': answer,
+  #   'company': companySymbol,
+  #   'time': datetime.timestamp(datetime.now())
+  # })
+
+  chat_ref = chat_db.collection('users').document(userID) \
+                        .collection('companies').document(companySymbol) \
+                        .collection('chat_history').document()
+    
+  # Add a new chat document with the provided details
   chat_ref.set({
     'question': query,
     'answer': answer,
-    'company': companySymbol,
-    'time': datetime.timestamp(datetime.now())
+    'time': datetime.now()  # Store the current timestamp
   })
 
-  # for query, answer in zipped_chat:
-  #   chat_ref = chat_db.collection('chat-history').document(query)
-  #   chat_ref.set({
-  #     'question': query,
-  #     'answer': answer
-  #   })
 
 def main(query, companySymbol, mode, userID):
   retriever = get_existing_retriever(namespace=companySymbol)
