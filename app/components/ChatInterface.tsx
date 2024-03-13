@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAuth } from '../contexts/AuthContext';
 import styles from "../styles/ChatInterface.module.css";
 
 const ChatInterface = ({ companySymbol, mode }) => {
@@ -8,6 +9,7 @@ const ChatInterface = ({ companySymbol, mode }) => {
     { text: "Hello! How can I help you today?", sender: "bot" },
   ]);
   const [input, setInput] = useState("");
+  const { currentUser } = useAuth();
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -18,22 +20,25 @@ const ChatInterface = ({ companySymbol, mode }) => {
           { text: input, sender: "user" },
         ]);
         setInput("");
-        const response = await fetch("http://localhost:8080/api/company-chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: input,
-            companySymbol: companySymbol,
-            mode: mode,
-          }), // customPrompt +
-        });
-        const message = await response.json();
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: message.response, sender: "bot" },
-        ]);
+        if (currentUser) {
+          const response = await fetch("http://localhost:8080/api/company-chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: input,
+              companySymbol: companySymbol,
+              mode: mode,
+              userID: currentUser.uid,
+            }), // customPrompt +
+          });
+          const message = await response.json();
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { text: message.response, sender: "bot" },
+          ]);
+        }
       } catch (error) {
         console.log("error", error);
       }

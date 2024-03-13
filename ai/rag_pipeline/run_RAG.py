@@ -43,7 +43,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from datetime import datetime
 
 
-os.environ["OPENAI_API_KEY"] = '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'
+# os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'
@@ -180,7 +180,7 @@ def process_results(chain, contextualize_query):
   # output has keys: "question", "answer", and "context", which you can print out
   return output
 
-def get_chat_history(companySymbol):
+def get_chat_history(companySymbol, userID):
   chat_history = []
   if not firebase_admin._apps:
     # path for running from api
@@ -212,7 +212,7 @@ def get_chat_history(companySymbol):
   
   return chat_history
   
-def add_to_chat_history(query, answer, companySymbol):
+def add_to_chat_history(query, answer, companySymbol, userID):
   if not firebase_admin._apps:
     credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
     current_directory = os.getcwd()
@@ -241,15 +241,15 @@ def add_to_chat_history(query, answer, companySymbol):
   #     'answer': answer
   #   })
 
-def main(query, companySymbol, mode):
+def main(query, companySymbol, mode, userID):
   retriever = get_existing_retriever(namespace=companySymbol)
-  chat_history = get_chat_history(companySymbol)
+  chat_history = get_chat_history(companySymbol, userID)
   
   chain = run_RAG(retriever, mode)
   final_query = contextualize_question(chat_history, query)
   
   output = process_results(chain, final_query)
-  add_to_chat_history(query, output['answer'], companySymbol)
+  add_to_chat_history(query, output['answer'], companySymbol, userID)
   
   print("this is the reframed question: ", output['question'], '\n')
   print("this is the answer: ", output['answer'], '\n')
