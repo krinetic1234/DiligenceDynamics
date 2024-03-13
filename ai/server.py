@@ -4,6 +4,7 @@ from rag_pipeline.run_RAG import main
 from rag_pipeline.process_RAG import process
 import firebase_utils.database_utils as db_utils
 import os
+from sentiment.scrape import news_results, reddit_results
 
 # app instance
 app = Flask(__name__)
@@ -66,13 +67,14 @@ def process_document():
         print('Error:', str(e))
         return 'Error processing file', 500
 
-@app.route('/sentiment/news/<company_name>')
+@app.route('/api/sentiment/news/<company_name>')
 def get_news_sentiment(company_name):
+    print('hey there')
     fig_path, ai_response = news_results(company_name)
     fig_url = url_for('static', filename=fig_path)  
     return jsonify({'fig_url': fig_url, 'ai_response': ai_response})
 
-@app.route('/sentiment/reddit/<company_name>')
+@app.route('/api/sentiment/reddit/<company_name>')
 def get_reddit_sentiment(company_name):
     fig_path, ai_response = reddit_results(company_name)
     fig_url = url_for('static', filename=fig_path) 

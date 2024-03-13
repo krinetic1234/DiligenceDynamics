@@ -6,11 +6,11 @@ const SentimentPage = () => {
     const [redditSentiment, setRedditSentiment] = useState({fig_url: '', ai_response: ''});
 
     const fetchSentimentData = async (companyName: string) => {
-        const newsResponse = await fetch(`/sentiment/news/${companyName}`);
+        const newsResponse = await fetch(`http://localhost:8080/api/sentiment/news/${companyName}`);
         const newsData = await newsResponse.json();
         setNewsSentiment(newsData);
 
-        const redditResponse = await fetch(`/sentiment/reddit/${companyName}`);
+        const redditResponse = await fetch(`http://localhost:8080/api/sentiment/reddit/${companyName}`);
         const redditData = await redditResponse.json();
         setRedditSentiment(redditData);
     };
