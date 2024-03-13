@@ -3,7 +3,6 @@ import praw
 from nltk.sentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 from test_ft import ai_output
-import praw
 import nltk
 from transformers import AutoModelForCausalLM, AutoTokenizer
 nltk.download('vader_lexicon')

@@ -1,6 +1,7 @@
 "use client";
 
 import SideBar from "./components/SideBar";
+import { AuthProvider } from "./contexts/AuthContext"
 import "bootstrap/dist/css/bootstrap.css";
 import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
