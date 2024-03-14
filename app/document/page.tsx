@@ -9,6 +9,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { storage } from "../firebase/firebaseConfig";
 import { ref, list, getDownloadURL, getMetadata } from "firebase/storage";
 import { FcDocument } from "react-icons/fc";
+import { useAuth } from '../contexts/AuthContext';
 import "../styles/globals.css";
 
 export default function Page() {
@@ -21,6 +22,7 @@ export default function Page() {
   const mode = "document";
   const [companySymbol, setCompanySymbol] = useState("");
   const [tableData, setTableData] = useState([]);
+  const { currentUser } = useAuth();
 
   const downloadButton = (rowData) => {
     const handleDownload = async () => {
@@ -62,53 +64,28 @@ export default function Page() {
   const fetchFiles = async () => {
     try {
       const companyRef = ref(storage, `companies/${companySymbol}`);
-      const manualRef = ref(companyRef, "manually_uploaded");
-      const scrapedRef = ref(companyRef, "scraped");
-
-      const firstPageManual = await list(manualRef, { maxResults: 20 });
-      if (firstPageManual.nextPageToken) {
-        const secondPage = await list(manualRef, {
+      
+      const firstPageCompanyFiles = await list(companyRef, { maxResults: 20 });
+      if (firstPageCompanyFiles.nextPageToken) {
+        const secondPage = await list(companyRef, {
           maxResults: 20,
-          pageToken: firstPageManual.nextPageToken,
+          pageToken: firstPageCompanyFiles.nextPageToken,
         });
       }
 
-      const firstPageScraped = await list(scrapedRef, { maxResults: 20 });
-      if (firstPageScraped.nextPageToken) {
-        const secondPage = await list(scrapedRef, {
-          maxResults: 20,
-          pageToken: firstPageScraped.nextPageToken,
-        });
-      }
-
-      const manualDataPromises = firstPageManual.items.map(async (itemRef) => {
+      const companyFilesPromises = firstPageCompanyFiles.items.map(async (itemRef) => {
         const metadata = await getMetadata(itemRef);
         return {
           fileName: metadata.name,
           date: metadata.updated, // You can use 'created' or 'updated' depending on your requirements
           downloadURL: await getDownloadURL(itemRef),
-          manual: "yes",
+          manual: metadata.customMetadata && metadata.customMetadata.isManual,
+          userId: metadata.customMetadata && metadata.customMetadata.userId,
         };
       });
 
-      const manualData = await Promise.all(manualDataPromises);
-
-      const scrapedDataPromises = firstPageScraped.items.map(
-        async (itemRef) => {
-          const metadata = await getMetadata(itemRef);
-          return {
-            fileName: metadata.name,
-            date: metadata.updated, // You can use 'created' or 'updated' depending on your requirements
-            downloadURL: await getDownloadURL(itemRef),
-            manual: "no",
-          };
-        }
-      );
-
-      const scrapedData = await Promise.all(scrapedDataPromises);
-
-      const companyFiles = manualData.concat(scrapedData);
-      console.log("companyFiles:", companyFiles);
+      const companyData = await Promise.all(companyFilesPromises);      
+      const companyFiles = companyData.filter((file) => file.userId === currentUser.uid);
       setTableData(companyFiles);
     } catch (error) {
       console.error("Error fetching files:", error);

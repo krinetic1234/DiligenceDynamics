@@ -33,6 +33,8 @@ def upload_document():
     try:
         uploaded_file = request.files['file']
         company_symbol = request.form.get('companySymbol')
+        user_id = request.form.get('userId')
+        is_manual = request.form.get('isManual')
         if uploaded_file.filename != '':
             # Adjust the path where you want to save the file on the server
             # save_path = ''
@@ -42,9 +44,8 @@ def upload_document():
 
             # Here you can add code to upload the file to Firebase Storage
             # Refer to Firebase Storage documentation for more details
-            storage_path = f'companies/{company_symbol}/manually_uploaded/{uploaded_file.filename}'
-            db_utils.upload_to_firebase(storage_path, uploaded_file.filename)
-
+            storage_path = f'companies/{company_symbol}/{uploaded_file.filename}'
+            db_utils.upload_to_firebase(storage_path, uploaded_file.filename, user_id, is_manual)
             os.remove(uploaded_file.filename)
 
             return 'File uploaded successfully!', 200
@@ -60,9 +61,10 @@ def process_document():
         uploaded_file = request.files['file']
         file_name = uploaded_file.filename
         company_symbol = request.form.get('companySymbol')
-        storage_path = f'companies/{company_symbol}/manually_uploaded/{file_name}'
+        storage_path = f'companies/{company_symbol}/{file_name}'
+        user_id = request.form.get('userId')
         
-        process(storage_path, company_symbol)
+        process(storage_path, company_symbol, user_id)
 
         return 'File processed successfully!', 200
 

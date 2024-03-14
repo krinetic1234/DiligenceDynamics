@@ -95,14 +95,6 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        borderBottom: "0px solid #000",
-                      }}
-                    ></div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
                       }}
                     >
                       <h2 style={{ textAlign: "left" }}>
