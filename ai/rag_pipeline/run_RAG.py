@@ -80,11 +80,10 @@ def get_existing_retriever(namespace, user_id, mode):
   vectorstore = PineconeVectorStore(
       index, OpenAIEmbeddings().embed_query, text_field, namespace=namespace
   )
-  
   # other case: we're using this retriever to generate investment reports:
   if mode == "copilot":
     vectorstore = PineconeVectorStore(
-      index, OpenAIEmbeddings.embed_query, text_field, namespace=namespace, top_k = 8
+      index, OpenAIEmbeddings().embed_query, text_field, namespace=namespace
     )
 
   print('this the vectorstore:', vectorstore)
@@ -93,7 +92,7 @@ def get_existing_retriever(namespace, user_id, mode):
     vectorstore=vectorstore,
     docstore=store,
     id_key='doc_id',
-    search_kwargs={'filter': {'user_id': user_id}}
+    search_kwargs={'filter': {'user_id': user_id}, 'k': 8}
   )
   
   retriever.docstore.mset(documents_for_docstore)
