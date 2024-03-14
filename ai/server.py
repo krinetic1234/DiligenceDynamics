@@ -54,6 +54,34 @@ def upload_document():
     except Exception as e:
         print('Error:', str(e))
         return 'Error uploading file', 500
+
+@app.route('/api/upload-report', methods=['POST'])
+def upload_report():
+    try:
+        uploaded_file = request.files['file']
+        company_symbol = request.form.get('companySymbol')
+        user_id = request.form.get('userId')
+        is_manual = request.form.get('isManual')
+        if uploaded_file.filename != '':
+            # Adjust the path where you want to save the file on the server
+            # save_path = ''
+
+            # file_path = os.path.join(save_path, uploaded_file.filename)
+            uploaded_file.save(uploaded_file.filename)
+
+            # Here you can add code to upload the file to Firebase Storage
+            # Refer to Firebase Storage documentation for more details
+            storage_path = f'companies/{company_symbol}/reports/{uploaded_file.filename}'
+            db_utils.upload_to_firebase(storage_path, uploaded_file.filename, user_id, is_manual)
+            os.remove(uploaded_file.filename)
+
+            return 'File uploaded successfully!', 200
+        else:
+            return 'No file selected', 400
+    except Exception as e:
+        print('Error:', str(e))
+        return 'Error uploading file', 500
+
     
 @app.route('/api/process-document', methods=['POST'])
 def process_document():

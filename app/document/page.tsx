@@ -77,7 +77,7 @@ export default function Page() {
         const metadata = await getMetadata(itemRef);
         return {
           fileName: metadata.name,
-          date: metadata.updated, // You can use 'created' or 'updated' depending on your requirements
+          date: metadata.timeCreated, // You can use 'created' or 'updated' depending on your requirements
           downloadURL: await getDownloadURL(itemRef),
           manual: metadata.customMetadata && metadata.customMetadata.isManual,
           userId: metadata.customMetadata && metadata.customMetadata.userId,
@@ -117,10 +117,10 @@ export default function Page() {
             tableData={tableData}
             customColumns={customColumns}
           />
-          <ChatInterface
+          {/* <ChatInterface
             companySymbol={companySymbol}
             mode={mode}
-          ></ChatInterface>
+          ></ChatInterface> */}
         </Col>
       </Row>
     </Container>

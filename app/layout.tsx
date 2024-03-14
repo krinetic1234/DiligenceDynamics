@@ -40,7 +40,7 @@ export default function RootLayout({
           </button>
           <Row className="row-container">
             {sidebarVisible && (
-              <Col xs={3} className="sidebar">
+              <Col xs={2} className="sidebar">
                 <SideBar />
               </Col>
             )}
