@@ -96,7 +96,7 @@ def get_existing_retriever(namespace, user_id, mode):
   )
   
   retriever.docstore.mset(documents_for_docstore)
-  return retriever
+  return retriever, vectorstore
 
 def print_intermediate(data):
   return data
@@ -261,7 +261,7 @@ def add_to_chat_history(query, answer, companySymbol, userID):
   })
 
 def main(query, companySymbol, mode, userID):
-  retriever = get_existing_retriever(namespace=companySymbol, user_id=userID, mode=mode)
+  retriever, vectorstore = get_existing_retriever(namespace=companySymbol, user_id=userID, mode=mode)
   chat_history = get_chat_history(companySymbol, userID)
   chain = run_RAG(retriever, mode)
   final_query = query
@@ -271,13 +271,21 @@ def main(query, companySymbol, mode, userID):
   output = process_results(chain, final_query)
   if mode == "chat":
     add_to_chat_history(query, output['answer'], companySymbol, userID)
+
+  if mode == "chat":
+    closest_vectors = vectorstore.similarity_search_with_score(final_query)
+    metadata_list = []
+    for vector in closest_vectors:
+      metadata_list.append(vector[0].metadata)
+    print('metadata list:', metadata_list)
+
   
   print("this is the reframed question: ", output['question'], '\n')
   print("this is the answer: ", output['answer'], '\n')
   print("this is the context retrieved", output['context'], '\n')
   print("this is the number of contexts retrieved: ", len(output['context']), '\n')
 
-  return output
+  return output, metadata_list
 
 if __name__ == "__main__":
   main('What are the key risks to this business?', 'CHWY')

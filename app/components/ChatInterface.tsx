@@ -11,6 +11,7 @@ const ChatInterface = ({ companySymbol, mode }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const { currentUser } = useAuth();
+  const [relevantFiles, setRelevantFiles] = useState("");
 
   const fetchDataFromDatabase = async () => {
     try {
@@ -32,7 +33,8 @@ const ChatInterface = ({ companySymbol, mode }) => {
       });
 
       if (previous_chat_data.length !== 0) {
-        const previousMessages = previous_chat_data.flatMap(({ question, answer}) => [
+        const sortedPreviousChatData = previous_chat_data.sort((a, b) => a.time - b.time);
+        const previousMessages = sortedPreviousChatData.flatMap(({ question, answer }) => [
           { text: question, sender: "user" },
           { text: answer, sender: "bot" },
         ]);
@@ -56,6 +58,12 @@ const ChatInterface = ({ companySymbol, mode }) => {
     }
   };
   
+  const getRelevantFilesString = () => {
+    if (relevantFiles) {
+      return "<br>Relevant files: " + relevantFiles;
+    }
+    return "";
+  }
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -77,13 +85,30 @@ const ChatInterface = ({ companySymbol, mode }) => {
               companySymbol: companySymbol,
               mode: mode,
               userID: currentUser.uid,
-            }), // customPrompt +
+            }),
           });
           const message = await response.json();
+
+          const metadataList = message.metadataList;
+          let relevantFilesString = "";
+          if (metadataList) {
+            const relevantFiles = metadataList.map((metadata) => {
+              return metadata.file_name;
+            });
+            
+            const uniqueRelevantFiles = relevantFiles.filter((value, index, array) => array.indexOf(value) === index);
+            relevantFilesString = uniqueRelevantFiles.join(", ");
+          }
+
+          const htmlString = relevantFilesString !== "" ? "Relevant files: " + relevantFilesString : "";
+          const responseText = message.response;
+
           setMessages((prevMessages) => [
             ...prevMessages,
-            { text: message.response, sender: "bot" },
+            { text: responseText, sender: "bot", citation: htmlString },
           ]);
+
+          
         } else {
           console.log("user not logged in");
           throw new Error("User not logged in");
@@ -94,38 +119,50 @@ const ChatInterface = ({ companySymbol, mode }) => {
     }
   };
 
+  
+
   useEffect(() => {
     fetchDataFromDatabase();
   
   }, [companySymbol, currentUser]);
 
   return (
-    <div className={styles.chatContainer}>
-      <div className={styles.messagesContainer}>
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={
-              message.sender === "bot" ? styles.messageBot : styles.messageUser
-            }
-          >
-            {message.text}
-          </div>
-        ))}
+    <div>
+      {/* <h6>{getRelevantFilesString()}</h6> */}
+      <div className={styles.chatContainer}>
+        <div className={styles.messagesContainer}>
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={
+                message.sender === "bot" ? styles.messageBot : styles.messageUser
+              }
+            >
+              {message.text}
+              {message.sender === "bot" && (
+                <div>
+                  <p></p>
+                  <p>{message.citation}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <form onSubmit={sendMessage} className={styles.inputContainer}>
+          <input
+            type="text"
+            className={styles.inputField}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your question..."
+          />
+          <button type="submit" className={styles.sendButton}>
+            Send
+          </button>
+        </form>
       </div>
-      <form onSubmit={sendMessage} className={styles.inputContainer}>
-        <input
-          type="text"
-          className={styles.inputField}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your question..."
-        />
-        <button type="submit" className={styles.sendButton}>
-          Send
-        </button>
-      </form>
     </div>
+    
   );
 };
 

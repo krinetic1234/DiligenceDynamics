@@ -192,7 +192,7 @@ def get_retriever():
         )
     return retriever
 
-def add_data_to_retriever(text_summaries, table_summaries, texts, tables, companySymbol, user_id):
+def add_data_to_retriever(text_summaries, table_summaries, texts, tables, companySymbol, user_id, file_name):
     # cred = credentials.Certificate('cs224g-firebase-adminsdk-p4elq-cf48ba0235.json')
     # app = firebase_admin.initialize_app(cred)
     db = firestore.client()
@@ -202,7 +202,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables, compan
     # Add texts
     doc_ids = [str(uuid.uuid4()) for _ in texts]
     summary_texts = [
-        Document(page_content=s, metadata={id_key: doc_ids[i], 'user_id': user_id}) for i, s in enumerate(text_summaries)
+        Document(page_content=s, metadata={id_key: doc_ids[i], 'user_id': user_id, 'file_name': file_name}) for i, s in enumerate(text_summaries)
     ]
     retriever.vectorstore.add_documents(summary_texts, namespace=companySymbol)
     zipped_text = list(zip(doc_ids, texts))
@@ -217,7 +217,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables, compan
     # Add tables
     table_ids = [str(uuid.uuid4()) for _ in tables]
     summary_tables = [
-        Document(page_content=s, metadata={id_key: table_ids[i], 'user_id': user_id}) for i, s in enumerate(table_summaries)
+        Document(page_content=s, metadata={id_key: table_ids[i], 'user_id': user_id, 'file_name': file_name}) for i, s in enumerate(table_summaries)
     ]
     retriever.vectorstore.add_documents(summary_tables, namespace=companySymbol)
     zipped_tables = list(zip(table_ids, tables))
@@ -230,7 +230,7 @@ def add_data_to_retriever(text_summaries, table_summaries, texts, tables, compan
         })
 
 
-def modify_retriever(firebase_path, companySymbol, user_id):
+def modify_retriever(firebase_path, companySymbol, user_id, file_name):
     if not firebase_admin._apps:
         credential_path = 'rag_pipeline/cs224g-firebase-adminsdk-p4elq-cf48ba0235.json'
         current_directory = os.getcwd()
@@ -254,7 +254,7 @@ def modify_retriever(firebase_path, companySymbol, user_id):
     unique_categories, category_counts = create_categories_dict(raw_pdf_elements)
     text_elements, table_elements = categorize_table_texts(raw_pdf_elements)
     text_summaries, table_summaries, texts, tables = generate_table_text_summaries(text_elements, table_elements)
-    add_data_to_retriever(text_summaries,table_summaries, texts, tables, companySymbol, user_id)
+    add_data_to_retriever(text_summaries,table_summaries, texts, tables, companySymbol, user_id, file_name)
 
 """
 For option 2:
@@ -298,8 +298,8 @@ GPT4-V is expected soon, and as mentioned above, CLIP support is likely to be ad
 PART 5: RUN PIPELINE AND SANITY CHECK RETRIEVAL
 """    
 
-def process(path, companySymbol, user_id):
-    modify_retriever(path, companySymbol, user_id)
+def process(path, companySymbol, user_id, file_name):
+    modify_retriever(path, companySymbol, user_id, file_name)
     # response = retriever.get_relevant_documents(
     #     "What are the current liabilities in the last quarter?"
     # )[1]

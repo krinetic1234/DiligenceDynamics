@@ -23,9 +23,12 @@ def company_chat():
     print('mode:', mode)
     print('userID:', userID)
     # run the RAG model
-    response = main(query, companySymbol, mode, userID)['answer']
-    print('response:', response)
-    return jsonify({'response': response})
+    response, metadata_list = main(query, companySymbol, mode, userID)
+    answer = response['answer']
+    print('answer:', answer)
+    print('metadata_list:', metadata_list)
+
+    return jsonify({'response': answer, 'metadataList': metadata_list})
 
 
 @app.route('/api/upload-document', methods=['POST'])
@@ -92,7 +95,7 @@ def process_document():
         storage_path = f'companies/{company_symbol}/{file_name}'
         user_id = request.form.get('userId')
         
-        process(storage_path, company_symbol, user_id)
+        process(storage_path, company_symbol, user_id, file_name)
 
         return 'File processed successfully!', 200
 
