@@ -53,7 +53,7 @@ def init_firebase_app():
     cred = credentials.Certificate(credential_path)
     firebase_admin.initialize_app(cred)
 
-def get_existing_retriever(namespace):
+def get_existing_retriever(namespace, user_id):
   init_firebase_app()
   db = firestore.client()
 
@@ -86,6 +86,7 @@ def get_existing_retriever(namespace):
     vectorstore=vectorstore,
     docstore=store,
     id_key='doc_id',
+    search_kwargs={'filter': {'user_id': user_id}}
   )
   
   retriever.docstore.mset(documents_for_docstore)
@@ -208,7 +209,7 @@ def add_to_chat_history(query, answer, companySymbol, userID):
   })
 
 def main(query, companySymbol, mode, userID):
-  retriever = get_existing_retriever(namespace=companySymbol)
+  retriever = get_existing_retriever(namespace=companySymbol, user_id=userID)
   chat_history = get_chat_history(companySymbol, userID)
   
   chain = run_RAG(retriever, mode)
