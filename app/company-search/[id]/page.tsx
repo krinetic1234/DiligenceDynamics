@@ -46,6 +46,7 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
         let fullDiff = (currentClose / earliestClose - 1) * 100;
         setStockDiff(diff);
         setFullDiff(fullDiff);
+        console.log('companyData', data);
         setCompanyData(data);
       }
     } catch (error) {
@@ -56,9 +57,8 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
   };
 
   useEffect(() => {
-    console.log("params.id", params.id);
     handleSearch(params.id);
-  }, [params.id]);
+  }, [params.id, startDate, endDate]);
 
   return (
     <Container className="text-center mt-5 landing">
