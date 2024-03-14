@@ -9,6 +9,7 @@ import moment from "moment-timezone";
 import NewsList from "../../components/NewsList";
 import FinanceChart from "../../components/FinanceChart";
 import ChatInterface from "../../components/ChatInterface";
+import CompanySummary from "../../components/CompanySummary";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 import nasdaq_map from "../../nasdaq_map.json";
 
@@ -150,7 +151,16 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
                   </div>
                 </Col>
                 <Col>
-                  {companyData ? <NewsList companyData={companyData} /> : null}
+                  {companyData ? 
+                    <Row>
+                      <Col>
+                        <NewsList companyData={companyData} />
+                      </Col>
+                      <Col>
+                        <CompanySummary companyName={nasdaq_map[companyData.ticker]} companySymbol={companyData.ticker} />
+                      </Col>
+                    </Row>
+                    : null}
                 </Col>
               </Row>
             ) : null}

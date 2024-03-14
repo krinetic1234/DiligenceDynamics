@@ -6,6 +6,7 @@ import firebase_utils.database_utils as db_utils
 import os
 from sentiment.scrape import news_results, reddit_results
 from excel_nlp.parse_spacy import fetch_graph
+from summary.summary import naive_summary
 
 # app instance
 app = Flask(__name__)
@@ -26,7 +27,6 @@ def company_chat():
     response = main(query, companySymbol, mode, userID)['answer']
     print('response:', response)
     return jsonify({'response': response})
-
 
 @app.route('/api/upload-document', methods=['POST'])
 def upload_document():
@@ -71,6 +71,15 @@ def process_document():
     except Exception as e:
         print('Error:', str(e))
         return 'Error processing file', 500
+
+@app.route('/api/company-summary', methods=['POST'])
+def company_summary():
+    # get the request data
+    companySymbol = request.json['companySymbol']
+    print('companySymbol:', companySymbol)
+    summary = naive_summary(companySymbol)
+    print('summary:', summary)
+    return jsonify({'summary': summary})
 
 @app.route('/api/sentiment/news/<company_name>')
 def get_news_sentiment(company_name):
