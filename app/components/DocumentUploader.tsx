@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "../styles/globals.css";
 import { Form, Button, Row, Col, Toast, Spinner } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
 
 const DocumentUploader = ({ companySymbol, onUploadSuccess }) => {
   const [selectedFile, setSelectedFile] = React.useState(null);
@@ -9,6 +10,7 @@ const DocumentUploader = ({ companySymbol, onUploadSuccess }) => {
   const [toastMessage, setToastMessage] = React.useState("");
   const [toastVariant, setToastVariant] = React.useState("success");
   const [isProcessing, setIsProcessing] = React.useState(false);
+  const { currentUser } = useAuth();
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -27,6 +29,8 @@ const DocumentUploader = ({ companySymbol, onUploadSuccess }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("companySymbol", companySymbol);
+    formData.append("userId", currentUser.uid);
+    formData.append("isManual", 'yes');
     // Upload the file to the server
     try {
       const response = await fetch(
@@ -74,6 +78,7 @@ const DocumentUploader = ({ companySymbol, onUploadSuccess }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("companySymbol", companySymbol);
+    formData.append("userId", currentUser.uid);
     // Upload the file to the server
     try {
       const response = await fetch(

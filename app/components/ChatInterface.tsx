@@ -16,34 +16,20 @@ const ChatInterface = ({ companySymbol, mode }) => {
     try {
       if (!currentUser) {
         console.log('User not logged in');
-        throw new Error('User not logged in');
+        // throw new Error('User not logged in');
+        return;
       }
       if (!companySymbol) {
         console.log('Company Symbol not provided');
-        throw new Error('Company Symbol not provided');
+        // throw new Error('Company Symbol not provided');
+        return;
       }
-      // console.log('messages:', messages);
-      // if (messages.length !== 0) {
-      //   return;
-      // }
-      // console.log('user:', currentUser);
-      // const companyRef = ref(database);
-      const querySnapshot = await getDocs(collection(firestore, 'users', currentUser.uid, 'companies', companySymbol, 'chat_history'));
-      // console.log('querySnapshot:', querySnapshot.docs);
-      // const history = await get(child(companyRef, 'chat_history'));
-      // console.log('history:', history);
       
-      // querySnapshot.forEach((doc) => {
-      //   console.log(`${doc.id} => ${doc.data()}`);
-      //   console.log(doc.data());
-      // });
+      const querySnapshot = await getDocs(collection(firestore, 'users', currentUser.uid, 'companies', companySymbol, 'chat_history'));
 
       const previous_chat_data = querySnapshot.docs.map(doc => {
         return doc.data();
       });
-      // filter prevoius chat data on companyName
-      // const company_chat_data = previous_chat_data.filter(chat => chat.company === companySymbol);
-      // console.log('company_chat_data:', company_chat_data);
 
       if (previous_chat_data.length !== 0) {
         const previousMessages = previous_chat_data.flatMap(({ question, answer}) => [
@@ -109,7 +95,6 @@ const ChatInterface = ({ companySymbol, mode }) => {
   };
 
   useEffect(() => {
-    console.log('hi im fetching');
     fetchDataFromDatabase();
   
   }, [companySymbol, currentUser]);

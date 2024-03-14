@@ -9,7 +9,8 @@ import {
   FaCog,
   FaQuestion,
   FaUser,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaBook
 } from "react-icons/fa"; // Example using Font Awesome icons
 import { useAuth } from '../contexts/AuthContext';
 import { getAuth, signOut } from "firebase/auth";
@@ -23,6 +24,7 @@ const links = [
     icon: <FaTachometerAlt />,
   },
   { name: "Sentiment Analysis", href: "/sentiment", icon: <FaQuestion /> },
+  { name: "Investment Report Helper", href: "/investment-copilot", icon: <FaBook /> },
   { name: "Settings", href: "/settings", icon: <FaCog /> },
 ];
 

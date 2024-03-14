@@ -17,7 +17,7 @@ def initialize_firebase():
         cred = credentials.Certificate(credential_path)
         firebase_admin.initialize_app(cred, {'storageBucket': 'cs224g.appspot.com'})
 
-def upload_to_firebase(storage_path, local_file_name):
+def upload_to_firebase(storage_path, local_file_name, user_id, is_manual):
     try:
         initialize_firebase()
         print('storage_path:', storage_path)
@@ -25,6 +25,9 @@ def upload_to_firebase(storage_path, local_file_name):
         # Upload the file to Firebase Storage
         bucket = storage.bucket()
         blob = bucket.blob(storage_path)
+        print('user_id:', user_id)
+        metadata = {'userId': user_id, 'isManual': is_manual}
+        blob.metadata = metadata
         blob.upload_from_filename(local_file_name)
 
 
