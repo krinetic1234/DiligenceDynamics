@@ -30,7 +30,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from datetime import datetime
 
 
-# os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = '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'
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 pinecone_api_key = '3d280322-c071-4e57-997d-ebc26dfe428b'

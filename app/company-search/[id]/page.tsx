@@ -82,7 +82,7 @@ const CompanySearch = ({ params }: { params: { id: string } }) => {
           </div>
         )}
       </Row>
-      <Accordion className="max-width" defaultActiveKey={["0"]} alwaysOpen>
+      <Accordion className="max-width" activeKey={["0", "1"]} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Company Overview</Accordion.Header>
           <Accordion.Body>

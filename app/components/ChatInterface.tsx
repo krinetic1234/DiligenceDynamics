@@ -10,35 +10,43 @@ import { collection, getDocs } from "firebase/firestore";
 const ChatInterface = ({ companySymbol, mode }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-
-  
+  const { currentUser } = useAuth();
 
   const fetchDataFromDatabase = async () => {
     try {
-      console.log('messages:', messages);
-      if (messages.length !== 0) {
-        return;
+      if (!currentUser) {
+        console.log('User not logged in');
+        throw new Error('User not logged in');
       }
+      if (!companySymbol) {
+        console.log('Company Symbol not provided');
+        throw new Error('Company Symbol not provided');
+      }
+      // console.log('messages:', messages);
+      // if (messages.length !== 0) {
+      //   return;
+      // }
+      // console.log('user:', currentUser);
       // const companyRef = ref(database);
-      const querySnapshot = await getDocs(collection(firestore, 'chat-history'));
-      console.log('querySnapshot:', querySnapshot.docs);
+      const querySnapshot = await getDocs(collection(firestore, 'users', currentUser.uid, 'companies', companySymbol, 'chat_history'));
+      // console.log('querySnapshot:', querySnapshot.docs);
       // const history = await get(child(companyRef, 'chat_history'));
       // console.log('history:', history);
       
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-        console.log(doc.data());
-      });
+      // querySnapshot.forEach((doc) => {
+      //   console.log(`${doc.id} => ${doc.data()}`);
+      //   console.log(doc.data());
+      // });
 
       const previous_chat_data = querySnapshot.docs.map(doc => {
         return doc.data();
       });
       // filter prevoius chat data on companyName
-      const company_chat_data = previous_chat_data.filter(chat => chat.company === companySymbol);
-      console.log('company_chat_data:', company_chat_data);
+      // const company_chat_data = previous_chat_data.filter(chat => chat.company === companySymbol);
+      // console.log('company_chat_data:', company_chat_data);
 
-      if (company_chat_data.length !== 0) {
-        const previousMessages = company_chat_data.flatMap(({ question, answer}) => [
+      if (previous_chat_data.length !== 0) {
+        const previousMessages = previous_chat_data.flatMap(({ question, answer}) => [
           { text: question, sender: "user" },
           { text: answer, sender: "bot" },
         ]);
@@ -61,7 +69,7 @@ const ChatInterface = ({ companySymbol, mode }) => {
       console.error('Error fetching chat history:', error);
     }
   };
-  const { currentUser } = useAuth();
+  
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -90,6 +98,9 @@ const ChatInterface = ({ companySymbol, mode }) => {
             ...prevMessages,
             { text: message.response, sender: "bot" },
           ]);
+        } else {
+          console.log("user not logged in");
+          throw new Error("User not logged in");
         }
       } catch (error) {
         console.log("error", error);
@@ -101,7 +112,7 @@ const ChatInterface = ({ companySymbol, mode }) => {
     console.log('hi im fetching');
     fetchDataFromDatabase();
   
-  }, [companySymbol]);
+  }, [companySymbol, currentUser]);
 
   return (
     <div className={styles.chatContainer}>

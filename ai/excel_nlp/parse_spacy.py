@@ -2,7 +2,7 @@ import openpyxl
 import spacy
 from openpyxl.chart import LineChart, Reference
 
-nlp = spacy.load("en_core_web_sm")
+# nlp = spacy.load("en_core_web_sm")
 
 def process_instruction(instruction):
     doc = nlp(instruction)
