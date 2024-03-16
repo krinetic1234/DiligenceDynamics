@@ -272,9 +272,10 @@ def main(query, companySymbol, mode, userID):
   if mode == "chat":
     add_to_chat_history(query, output['answer'], companySymbol, userID)
 
+  metadata_list = []
   if mode == "chat":
     closest_vectors = vectorstore.similarity_search_with_score(final_query)
-    metadata_list = []
+    
     for vector in closest_vectors:
       metadata_list.append(vector[0].metadata)
     print('metadata list:', metadata_list)
